@@ -1,0 +1,37 @@
+# Troubleshooting
+
+## Common MCP Issues
+1. **Clearing VS Code Cache**
+   If you encounter issues with stale configurations, reload the VS Code window:
+   - Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS).
+   - Select `Developer: Reload Window`.
+
+2. **Server Not Showing Up in Agent Mode**
+   Ensure that the `mcp.json` file is correctly configured and includes the appropriate server definitions. Restart your MCP server and reload the VS Code window.
+
+3. **Tools Not Loading in Agent Mode**
+   If tools are not appearing, click "Add Context" in Agent Mode and ensure all tools starting with `ado_` are selected.
+
+## Project-Specific Issues
+1. **npm Authentication Issues for Remote Access**
+   If you encounter authentication errors while accessing the internal Codex-Deps feed (if using remote package):
+   - Ensure you are logged in to Azure DevOps using the `az` CLI:
+     ```pwsh
+     az login
+     ```
+   - Verify your npm configuration:
+     ```pwsh
+     npm config get registry
+     ```
+     It should point to:
+     - `https://pkgs.dev.azure.com/mseng/_packaging/Codex-Deps/npm/registry/` if remote.
+     - `https://registry.npmjs.org/` if running it locally.
+
+3. **Dependency Installation Errors**
+   If `npm install` fails, ensure you are using Node.js version 20 or higher. You can check your Node.js version with:
+   ```pwsh
+   node -v
+   ```
+
+4. **Internal Feed Access**
+   If you cannot access the internal Codex-Deps feed, confirm that you have the necessary permissions and that your Azure DevOps organization is correctly configured in `mcp.json`.

@@ -1,0 +1,42 @@
+trigger: none
+
+schedules:
+  - cron: "0 0 * * 1" # Runs every Monday at 00:00 UTC
+    displayName: Release Latest Version
+    branches:
+      include:
+        - main
+
+jobs:
+  - job: ReleaseLatest
+    pool:
+      vmImage: 'windows-latest'
+
+    steps:
+      - task: UseNode@1
+        inputs:
+          version: '20'
+          checkLatest: false
+          retryCountOnDownloadFails: 2
+
+      - task: npmAuthenticate@0
+        inputs:
+          workingFile: .npmrc
+        displayName: Authenticate with npm registry
+
+      - task: Npm@1
+        inputs:
+          command: 'ci'
+        displayName: Install clean dependencies
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run build'
+        displayName: Build the project
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'publish --registry=<secrets.FEED>'
+        displayName: Publish package
