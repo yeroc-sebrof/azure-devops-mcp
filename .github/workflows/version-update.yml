@@ -1,0 +1,52 @@
+name: Update Package Version
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - labeled
+      - unlabeled
+
+jobs:
+  update-version:
+    name: Update Package Version
+    runs-on: windows-latest
+    if: contains(github.event.pull_request.labels.*.name, 'minor') || contains(github.event.pull_request.labels.*.name, 'patch')
+
+    steps:
+      - name: Determine version type
+        id: version_type
+        run: |
+          if ($env:GITHUB_EVENT_PULL_REQUEST_LABELS -contains "minor") {
+            $env:VERSION_TYPE = "minor"
+          } elseif ($env:GITHUB_EVENT_PULL_REQUEST_LABELS -contains "patch") {
+            $env:VERSION_TYPE = "patch"
+          } else {
+            $env:VERSION_TYPE = ""
+          }
+        shell: pwsh
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Update package version and push tag
+        if: env.VERSION_TYPE != ''
+        run: |
+          $newVersion = npm version $env:VERSION_TYPE
+          git tag "v$newVersion"
+          git push origin "v$newVersion"
+        shell: pwsh
+
+      - name: Push changes
+        if: env.VERSION_TYPE != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git push origin HEAD:main
+        shell: pwsh

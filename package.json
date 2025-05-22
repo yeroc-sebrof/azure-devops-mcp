@@ -1,0 +1,42 @@
+{
+  "name": "@modelcontextprotocol/server-azuredevops",
+  "version": "0.7.0",
+  "description": "MCP server for interacting with Azure DevOps",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "homepage": "TBD",
+  "bugs": "TBD",
+  "type": "module",
+  "bin": {
+    "mcp-server-azuredevops": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "node -p \"'export const packageVersion = ' + JSON.stringify(require('./package.json').version) + ';\\r'\" > src/version.ts",
+    "build": "tsc && shx chmod +x dist/*.js",
+    "prepare": "npm run build",
+    "watch": "tsc --watch",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js mseng",
+    "start": "node -r tsconfig-paths/register dist/index.js",
+    "clean": "shx rm -rf dist"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.8.0",
+    "@modelcontextprotocol/sdk": "1.11.3",
+    "azure-devops-extension-api": "^4.252.0",
+    "azure-devops-extension-sdk": "^2.0.0",
+    "azure-devops-node-api": "^15.1.0",
+    "save-dev": "^0.0.1-security",
+    "zod": "^3.24.2",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.7.0",
+    "@types/node": "^22",
+    "shx": "^0.4.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
+  }
+}
