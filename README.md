@@ -1,4 +1,4 @@
-# azure-devops-mcp
+# ⭐ Azure DevOps MCP Server
 
 > Please note that this project is in Public Preview and implementation may significantly change prior to our General Availability.
 
