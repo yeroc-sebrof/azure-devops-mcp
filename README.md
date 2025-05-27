@@ -10,16 +10,34 @@ You can use this from within your code editor to perform simple or more advanced
 
 > 🚨 Please note that this project is in Public Preview and implementation may significantly change prior to our General Availability.
 
-# 📄 Table of contents
+## 📄 Table of contents
 
-1. 📺 Overview
-2. ⚙️ Currently Supported Tools
-3. 🔌 Installation and Getting Started
-4. 🔦 Using Azure DevOps MCP Server
-5. 📝 Troubleshooting
-6. 🎩 How to, Suggestions, Best Practices
-7. ⌨️ Contributing to Azure DevOps MCP Server
+1. 📺 [Overview](#-overview)
+2. ⚙️ [Currently Supported Tools](#️-currently-supported-tools)
+3. 🔌 [Installation and Getting Started](#-installation-and-getting-started)
+4. 🔦 [Using Azure DevOps MCP Server](#-using-azure-devops-mcp-server)
+5. 📝 [Troubleshooting](#-troubleshooting)
+6. 🎩 [How to, Suggestions, Best Practices](#-how-to-suggestions-best-practices)
+7. ⌨️ [Contributing to Azure DevOps MCP Server](#️-contributing-to-azure-devops-mcp-server)
 
+## 📺 Overview
+
+The Azure DevOps MCP Server supercharges your agents with Azure DevOps context. Here are some cool prompts you can try:
+
+- "List my ADO projects"
+- 
+
+## ⚙️ Currently Supported Tools
+
+## 🔌 Installation and Getting Started
+
+## 🔦 Using Azure DevOps MCP Server
+
+## 📝 Troubleshooting
+
+## 🎩 How to, Suggestions, Best Practices
+
+## ⌨️ Contributing to Azure DevOps MCP Server
 
 ### Learn More and Get Support
 
