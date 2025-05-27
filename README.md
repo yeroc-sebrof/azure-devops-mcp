@@ -1,10 +1,25 @@
 # ⭐ Azure DevOps MCP Server
 
-> Please note that this project is in Public Preview and implementation may significantly change prior to our General Availability.
+Click one of these buttons to install the AzureDevops MCP Server for VS Code or VS Code Insiders.
+
+[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-Install_AzureDevops_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D) 
+[![Install with NPX in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_AzureDevops_MCP_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&quality=insiders&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
 
 This typescript project contains the definition of the **local** MCP server for Azure DevOps.
 You can use this from within your code editor to perform simple or more advanced tasks which include your Azure DevOps organization.
-Make sure to configure your repository once, so that anyone can use these tools automatically.
+
+> 🚨 Please note that this project is in Public Preview and implementation may significantly change prior to our General Availability.
+
+# 📄 Table of contents
+
+1. 📺 Overview
+2. ⚙️ Currently Supported Tools
+3. 🔌 Installation and Getting Started
+4. 🔦 Using Azure DevOps MCP Server
+5. 📝 Troubleshooting
+6. 🎩 How to, Suggestions, Best Practices
+7. ⌨️ Contributing to Azure DevOps MCP Server
+
 
 ### Learn More and Get Support
 
