@@ -201,6 +201,10 @@ Launch in a GitHub Codespace:
 
    <img src="./docs/media/configure-mcp-server-tools.gif" alt="configure mcp server tools" width="300"/>
 
+#### Placeholder for Public Feed
+
+Update for Public Feed
+
 ## 🔦 Usage
 
 ### Visual Studio Code + GitHub Copilot
