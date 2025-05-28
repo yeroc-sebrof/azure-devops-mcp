@@ -12,22 +12,118 @@ You can use this from within your code editor to perform simple or more advanced
 
 ## 📄 Table of contents
 
-1. 📺 [Overview](#-overview)
-2. ⚙️ [Currently Supported Tools](#️-currently-supported-tools)
-3. 🔌 [Installation and Getting Started](#-installation-and-getting-started)
-4. 🔦 [Using Azure DevOps MCP Server](#-using-azure-devops-mcp-server)
-5. 📝 [Troubleshooting](#-troubleshooting)
-6. 🎩 [How to, Suggestions, Best Practices](#-how-to-suggestions-best-practices)
-7. ⌨️ [Contributing to Azure DevOps MCP Server](#️-contributing-to-azure-devops-mcp-server)
+1. [📺 Overview](#-overview)
+2. [⚙️ Currently Supported Tools](#️-currently-supported-tools)
+3. [🔌 Installation and Getting Started](#-installation-and-getting-started)
+4. [🔦 Using Azure DevOps MCP Server](#-using-azure-devops-mcp-server)
+5. [📝 Troubleshooting](#-troubleshooting)
+6. [🎩 How to, Suggestions, Best Practices](#-how-to-suggestions-best-practices)
+7. [⌨️ Contributing to Azure DevOps MCP Server](#️-contributing-to-azure-devops-mcp-server)
 
 ## 📺 Overview
 
 The Azure DevOps MCP Server supercharges your agents with Azure DevOps context. Here are some cool prompts you can try:
 
 - "List my ADO projects"
-- 
+- "List ADO Builds for 'Contoso'"
+- "List ADO Releases for 'Contoso'"
+- "List ADO Repos for 'Contoso'"
+- "List test plans for 'Contoso'"
+- "List teams for project 'Contoso'"
+- "List iterations for project 'Contoso'"
+- "List my work items for project 'Contoso'"
+- "List work items in current iteration for 'Contoso' project and 'Contoso Team'"
 
 ## ⚙️ Currently Supported Tools
+
+The Azure DevOps MCP Server provides tools for interacting with the following Azure DevOps services:
+
+### 🔎 Core
+
+- **ado_list_project_teams**: Get a list of teams for a specific project.
+- **ado_list_projects**: Get a list of projects in the organization.
+- **ado_list_team_iterations**: Get a list of iterations for a specific team.
+- **ado_create_iterations**: Create iterations for the project. 
+- **ado_assign_iterations**: Assign iterations to the team.
+
+### Work Items
+
+- **ado_my_work_items**: Get a list of work items relevant to me.
+- **ado_list_backlogs**: Get the list of backlogs for a given project and team.
+- **ado_list_backlog_work_items**: Get the list of for a given team and backlog category
+- **ado_get_work_item**: Get a single work item by ID.
+- **ado_get_work_items_batch_by_ids**: Get work items by IDs in batch.
+- **ado_update_work_item**: Update a work item by ID with specified fields.
+- **ado_create_work_item**: Create a new work item in a specified project and work item type.
+- **ado_list_work_item_comments**: Get comments for a work item by ID.
+- **ado_get_work_items_for_current_iteration**: Get a list of work items for the current iteration.
+- **ado_get_work_items_for_iteration**: Get a list of work items for a specified iteration.
+- **ado_add_work_item_comment**: Add comment to a work item by ID.
+- **ado_add_child_work_item**: Create a child work item from a parent by ID.
+- **ado_update_work_item_assign**: Assign a work item by ID.
+- **ado_link_work_item_to_pull_request**: Links a single work item to an existing pull request.
+- **ado_get_work_item_type**: Get information about a specific work item type.
+- **ado_get_query**: Get the details of a query by its ID or path.
+- **ado_get_query_results_by_id**: Get the results of a query given the query ID.
+- **ado_update_work_items_batch**: Update work items in batch.
+- **ado_close_and_link_workitem_duplicates**: Close duplicate work items by id.
+
+### Repositories
+
+- **ado_list_repos_by_project**: Get a list of repositories for a given project.
+- **ado_list_pull_requests_by_repo**: Get a list of pull requests for a given repository.
+- **ado_list_pull_requests_by_project**: Get a list of pull requests for a given project.
+- **ado_list_branches_by_repo**: 
+- **ado_list_my_branches_by_repo**: 
+- **ado_list_pull_request_threads**: 
+- **ado_list_pull_request_thread_comments**: 
+- **ado_get_repo_by_id**: 
+- **ado_get_repo_by_name**: 
+- **ado_get_branch_by_name**: 
+- **ado_get_pull_request_by_id**: 
+- **ado_create_pull_request**: Creates a new pull request.
+- **ado_publish_pull_request**: Publishes an existing pull request.
+- **ado_abandon_pull_request**: Abandons an existing pull request.
+- **ado_reply_to_comment**: Replies to a specific comment on a pull request.
+- **ado_resolve_comment**: Resolves a specific comment thread on a pull request.
+
+### Builds
+
+- **ado_get_build_definitions**: Get a list of build definitions for a given project.
+- **ado_get_build_definition_revisions**: Get a list of revisions for a specific build definition.
+- **ado_get_builds**: Get a list of builds for a given project.
+- **ado_get_build_log**: Get the logs for a specific build.
+- **ado_get_build_log_by_id**: Get a specific build log by log ID.
+- **ado_get_build_changes**: Get the changes associated with a specific build.
+- **ado_run_build**: Triggers a new build for a specified definition.
+- **ado_get_build_status**: Fetches the status of a specific build.
+
+### Releases
+
+- **ado_get_release_definitions**: Gets a list of release definitions for a given project.
+- **ado_get_releases**: Gets a list of releases for a given project.
+
+### Test Plans
+
+- **ado_create_test_plan**: Creates a new test plan in the project.
+- **ado_create_test_case**: Creates a new test case work item in the project.
+- **ado_add_test_cases_to_suite**: Adds existing test cases to a test suite.
+- **ado_show_test_results_from_build_id**: Gets a list of test results in the project.
+- **ado_list_test_cases**: Gets a list of test cases in the test plan.
+- **ado_list_test_plans**: 
+
+### Wiki
+
+- **ado_list_wikis**: Get the list of wikis for an organization or project.
+- **ado_get_wiki**: Get the wiki by wikiIdentifier.
+- **ado_list_wiki_pages**: Get the list of wiki pages for a specific wiki and project.
+- **ado_get_wiki_page**: Get wiki page by wikiIdentifier and path.
+
+### Search
+
+- **ado_code_search**: Get code search results for the given search text.
+- **ado_wiki_search**: Get wiki search results for the given search text.
+- **ado_workitem_search**: Get workitem search results for the given search text.
 
 ## 🔌 Installation and Getting Started
 
