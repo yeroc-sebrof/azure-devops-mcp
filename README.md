@@ -223,11 +223,11 @@ For more details, see [Visual Studio MCP Servers documentation](https://learn.mi
 
 ## 📝 Troubleshooting
 
-See the [Troubleshooting guide](./docs/TroubleShooting.md) for help with common issues and logging.
+See the [Troubleshooting guide](./docs/TROUBLESHOOTING.md) for help with common issues and logging.
 
 ## 🎩 Samples & Best Practices
 
-Find sample prompts and best practices in our [How-to Guide](./docs/HowTo.md).
+Find sample prompts and best practices in our [How-to Guide](./docs/HOWTO.md).
 
 ## 📌 Contributing
 
