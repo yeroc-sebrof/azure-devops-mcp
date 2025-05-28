@@ -1,6 +1,6 @@
 Before you get started, ensure you follow the steps in the `README.md` file. This will help you get up and running and connected to your Azure DevOps organization.
 
-## Modify Copilot Instructions
+## ✏️ Modify Copilot Instructions
 
 The `.github/copilot-instructions.md` file is a great way to customize the GitHub Copilot experience, especially when working with MCP Server for Azure DevOps.
 
@@ -8,9 +8,9 @@ From the [GitHub documentation](https://docs.github.com/en/copilot/customizing-c
 
 > Instead of repeatedly adding this contextual detail to your chat questions, you can create a file in your repository that automatically adds this information for you. The additional information is not displayed in the chat but is available to Copilot to allow it to generate higher-quality responses.
 
-### Example Modification
+#### Example Modification
 
-Here is an example modifications we use for getting and updating work items.
+Here is an example modifications you can add to your existing `.github/copilot-instructions.md` file.
 
 ```markdown
 ## Using MCP Server for Azure DevOps
@@ -24,11 +24,18 @@ The [Sequential Thinking](https://mcp.so/server/sequentialthinking) component he
 
 ```json
 {
+  "inputs": [
+    {
+      "id": "ado_org",
+      "type": "promptString",
+      "description": "Azure DevOps organization name  (e.g. 'contoso')"
+    }
+  ],   
   "servers": {
     "ado": {
       "type": "stdio",
       "command": "mcp-server-azuredevops",
-      "args": ["contoso"]
+      "args": ["${input:ado_org}"]
     },
     "sequential-thinking": {
       "command": "npx",
@@ -38,13 +45,13 @@ The [Sequential Thinking](https://mcp.so/server/sequentialthinking) component he
 }
 ```
 
-## Different Models
+## 🎯 Different Models
 
 Communicating with the LLM is both an art and a science. If the model does not respond well, switching to a different model may improve your results.
 
-## Examples
+## 📽️ Examples
 
-### Projects and Teams
+#### Projects and Teams
 
 Most work item tools require project context. You can retrieve the list of projects and specify the desired project:
 
@@ -60,7 +67,7 @@ get list of teams for project contoso
 
 [![MPC Server for Azure DevOps: Get list of projects and teams](https://i9.ytimg.com/vi_webp/y_ri8n7mBlg/mqdefault.webp?sqp=CPjD7sAG&rs=AOn4CLC_vP4RGB4n-umKDZoaSTk8FTamUQ)](https://youtu.be/x579E4_jNtY "MPC Server for Azure DevOps: Get list of projects and teams")
 
-### Get My Work Items
+#### Get My Work Items
 
 Retrieve a list of work items assigned to you. This tool requires project context:
 
@@ -72,7 +79,7 @@ The model should automatically use the `ado_get_work_items_batch_by_ids` tool to
 
 [![MPC Server for Azure DevOps: Get my work items](https://i9.ytimg.com/vi_webp/x579E4_jNtY/mqdefault.webp?sqp=CPjD7sAG&rs=AOn4CLDeEq2Fr67GRW81zj3jInz-NSB2BA)](https://youtu.be/y_ri8n7mBlg "MPC Server for Azure DevOps: Get my work items")
 
-### Get Backlog
+#### Get Backlog
 
 You need project, team and backlog (Epics, Stories, Features) context in order to get a list of all the work items in a backlog.
 
@@ -83,7 +90,7 @@ get backlogs for Contoso project and Fabrikam Team
 Once you have the backlog levels, you can then get work items for that backlog.
 
 ```plaintext
-get list of work items for Feature backlog
+get list of work items for Features backlog
 ```
 
 The model should automatically use the `ado_get_work_items_batch_by_ids` tool to fetch work item details.
