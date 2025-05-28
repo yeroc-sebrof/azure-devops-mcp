@@ -38,7 +38,7 @@ The Azure DevOps MCP Server supercharges your agents with Azure DevOps context. 
 
 The Azure DevOps MCP Server provides tools for interacting with the following Azure DevOps services:
 
-### 🔎 Core
+### 🎩 Core
 
 - **ado_list_project_teams**: Get a list of teams for a specific project.
 - **ado_list_projects**: Get a list of projects in the organization.
@@ -46,7 +46,7 @@ The Azure DevOps MCP Server provides tools for interacting with the following Az
 - **ado_create_iterations**: Create iterations for the project. 
 - **ado_assign_iterations**: Assign iterations to the team.
 
-### Work Items
+### 📅 Work Items
 
 - **ado_my_work_items**: Get a list of work items relevant to me.
 - **ado_list_backlogs**: Get the list of backlogs for a given project and team.
@@ -68,7 +68,7 @@ The Azure DevOps MCP Server provides tools for interacting with the following Az
 - **ado_update_work_items_batch**: Update work items in batch.
 - **ado_close_and_link_workitem_duplicates**: Close duplicate work items by id.
 
-### Repositories
+### 📁 Repositories
 
 - **ado_list_repos_by_project**: Get a list of repositories for a given project.
 - **ado_list_pull_requests_by_repo**: Get a list of pull requests for a given repository.
@@ -87,7 +87,7 @@ The Azure DevOps MCP Server provides tools for interacting with the following Az
 - **ado_reply_to_comment**: Replies to a specific comment on a pull request.
 - **ado_resolve_comment**: Resolves a specific comment thread on a pull request.
 
-### Builds
+### 🛰️ Builds
 
 - **ado_get_build_definitions**: Get a list of build definitions for a given project.
 - **ado_get_build_definition_revisions**: Get a list of revisions for a specific build definition.
@@ -98,12 +98,12 @@ The Azure DevOps MCP Server provides tools for interacting with the following Az
 - **ado_run_build**: Triggers a new build for a specified definition.
 - **ado_get_build_status**: Fetches the status of a specific build.
 
-### Releases
+### 🚀 Releases
 
 - **ado_get_release_definitions**: Gets a list of release definitions for a given project.
 - **ado_get_releases**: Gets a list of releases for a given project.
 
-### Test Plans
+### 🧪 Test Plans
 
 - **ado_create_test_plan**: Creates a new test plan in the project.
 - **ado_create_test_case**: Creates a new test case work item in the project.
@@ -112,20 +112,101 @@ The Azure DevOps MCP Server provides tools for interacting with the following Az
 - **ado_list_test_cases**: Gets a list of test cases in the test plan.
 - **ado_list_test_plans**: 
 
-### Wiki
+### 📄 Wiki
 
 - **ado_list_wikis**: Get the list of wikis for an organization or project.
 - **ado_get_wiki**: Get the wiki by wikiIdentifier.
 - **ado_list_wiki_pages**: Get the list of wiki pages for a specific wiki and project.
 - **ado_get_wiki_page**: Get wiki page by wikiIdentifier and path.
 
-### Search
+### 🔎 Search
 
 - **ado_code_search**: Get code search results for the given search text.
 - **ado_wiki_search**: Get wiki search results for the given search text.
 - **ado_workitem_search**: Get workitem search results for the given search text.
 
 ## 🔌 Installation and Getting Started
+
+Clone this repository, install the content and add it to your MCP client configuration.
+
+### Prerequisites
+
+1. Install either the stable or Insiders release of VS Code:
+   * [💫 Stable release](https://code.visualstudio.com/download)
+   * [🔮 Insiders release](https://code.visualstudio.com/insiders)
+2. Install [Node.js](https://nodejs.org/en/download) 20 or later
+   * Ensure `node` and `npm` are in your path
+3. Open VS Code in an empty folder
+
+#### Azure Login
+
+The Azure DevOps MCP server will need to talk to your Azure DevOps organization and use local az context to do this. Ensure you are logged in to Azure DevOps using the az CLI:
+
+```
+az login
+```
+
+### Installation
+
+#### ✨ One-Click Install
+
+Click one of these buttons to install the AzureDevops MCP Server for VS Code or VS Code Insiders.
+
+[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-Install_AzureDevops_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D) 
+[![Install with NPX in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_AzureDevops_MCP_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&quality=insiders&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
+
+Once you've installed the Azure DevOps MCP Server, make sure you select GitHub Copilot Agent Mode and refresh the tools list. To learn more about Agent Mode, visit the [VS Code Documentation](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode).
+
+#### 🎮 Codespace
+
+Use our GitHub Codespace to get up and running.
+
+[![Open in GitHub Codespaces]](update_link)
+
+
+#### 🛠️ Manual Install
+
+For a step-by-step installation, follow these instructions:
+
+1. Clone the repository to your local environment.
+2. Install dependencies using npm:
+   ```pwsh
+   npm install; npm install -g .
+   ```
+   If you encounter authentication issues, ensure your npm registry is set to the public registry. You can check and update it with the following commands:
+   ```pwsh
+   # Check the current registry
+   npm config get registry
+
+   # If not set to npmjs, update it to the public registry
+   npm config set registry https://registry.npmjs.org/
+   ```
+3. Open and edit or add `.vscode/mcp.json`
+
+   ```json
+   {
+     "inputs": [
+          {
+                "id": "ado_org",
+                "type": "promptString",
+                "description": "Azure DevOps organization name  (e.g. 'contoso')"
+          }
+     ],
+     "servers": {
+          "ado": {
+                "type": "stdio",
+                "command": "mcp-server-azuredevops",
+                "args": [
+                     "${input:ado_org}"
+                ]
+          }
+     }
+   }
+   ```
+
+5. Start your server.
+6. In your chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode)
+7. Click "Add Context" and include all available tools that begin with ado_.
 
 ## 🔦 Using Azure DevOps MCP Server
 
