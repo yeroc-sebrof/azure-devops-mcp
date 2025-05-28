@@ -1,28 +1,27 @@
 # ⭐ Azure DevOps MCP Server
 
-Click one of these buttons to install the AzureDevops MCP Server for VS Code or VS Code Insiders.
+Easily install the Azure DevOps MCP Server for VS Code or VS Code Insiders:
 
-[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-Install_AzureDevops_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D) 
+[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-Install_AzureDevops_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
 [![Install with NPX in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_AzureDevops_MCP_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&quality=insiders&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
 
-This typescript project contains the definition of the **local** MCP server for Azure DevOps.
-You can use this from within your code editor to perform simple or more advanced tasks which include your Azure DevOps organization.
+This TypeScript project defines the **local** MCP server for Azure DevOps, enabling you to perform a wide range of Azure DevOps tasks directly from your code editor.
 
-> 🚨 Please note that this project is in Public Preview and implementation may significantly change prior to our General Availability.
+> 🚨 **Public Preview:** This project is in public preview. Features and APIs may change before General Availability.
 
-## 📄 Table of contents
+## 📄 Table of Contents
 
 1. [📺 Overview](#-overview)
-2. [⚙️ Currently Supported Tools](#️-currently-supported-tools)
-3. [🔌 Installation and Getting Started](#-installation-and-getting-started)
-4. [🔦 Using Azure DevOps MCP Server](#-using-azure-devops-mcp-server)
+2. [⚙️ Supported Tools](#️-supported-tools)
+3. [🔌 Installation & Getting Started](#-installation--getting-started)
+4. [🔦 Usage](#-usage)
 5. [📝 Troubleshooting](#-troubleshooting)
-6. [🎩 How to, Suggestions, Best Practices](#-how-to-suggestions-best-practices)
-7. [⌨️ Contributing to Azure DevOps MCP Server](#️-contributing-to-azure-devops-mcp-server)
+6. [🎩 Samples & Best Practices](#-samples--best-practices)
+7. [📌 Contributing](#️-contributing)
 
 ## 📺 Overview
 
-The Azure DevOps MCP Server supercharges your agents with Azure DevOps context. Here are some cool prompts you can try:
+The Azure DevOps MCP Server brings Azure DevOps context to your agents. Try prompts like:
 
 - "List my ADO projects"
 - "List ADO Builds for 'Contoso'"
@@ -34,115 +33,116 @@ The Azure DevOps MCP Server supercharges your agents with Azure DevOps context. 
 - "List my work items for project 'Contoso'"
 - "List work items in current iteration for 'Contoso' project and 'Contoso Team'"
 
-## ⚙️ Currently Supported Tools
+## ⚙️ Supported Tools
 
-The Azure DevOps MCP Server provides tools for interacting with the following Azure DevOps services:
+Interact with these Azure DevOps services:
 
-### 🎩 Core
+### ⚒️ Core
 
-- **ado_list_project_teams**: Get a list of teams for a specific project.
-- **ado_list_projects**: Get a list of projects in the organization.
-- **ado_list_team_iterations**: Get a list of iterations for a specific team.
-- **ado_create_iterations**: Create iterations for the project. 
-- **ado_assign_iterations**: Assign iterations to the team.
+- **ado_list_project_teams**: List teams for a project.
+- **ado_list_projects**: List organization projects.
+- **ado_list_team_iterations**: List iterations for a team.
+- **ado_create_iterations**: Create project iterations.
+- **ado_assign_iterations**: Assign iterations to a team.
 
 ### 📅 Work Items
 
-- **ado_my_work_items**: Get a list of work items relevant to me.
-- **ado_list_backlogs**: Get the list of backlogs for a given project and team.
-- **ado_list_backlog_work_items**: Get the list of for a given team and backlog category
-- **ado_get_work_item**: Get a single work item by ID.
-- **ado_get_work_items_batch_by_ids**: Get work items by IDs in batch.
-- **ado_update_work_item**: Update a work item by ID with specified fields.
-- **ado_create_work_item**: Create a new work item in a specified project and work item type.
-- **ado_list_work_item_comments**: Get comments for a work item by ID.
-- **ado_get_work_items_for_current_iteration**: Get a list of work items for the current iteration.
-- **ado_get_work_items_for_iteration**: Get a list of work items for a specified iteration.
-- **ado_add_work_item_comment**: Add comment to a work item by ID.
-- **ado_add_child_work_item**: Create a child work item from a parent by ID.
-- **ado_update_work_item_assign**: Assign a work item by ID.
-- **ado_link_work_item_to_pull_request**: Links a single work item to an existing pull request.
-- **ado_get_work_item_type**: Get information about a specific work item type.
-- **ado_get_query**: Get the details of a query by its ID or path.
-- **ado_get_query_results_by_id**: Get the results of a query given the query ID.
-- **ado_update_work_items_batch**: Update work items in batch.
-- **ado_close_and_link_workitem_duplicates**: Close duplicate work items by id.
+- **ado_my_work_items**: List work items assigned to you.
+- **ado_list_backlogs**: List backlogs for a project and team.
+- **ado_list_backlog_work_items**: List work items for a team and backlog category.
+- **ado_get_work_item**: Get a work item by ID.
+- **ado_get_work_items_batch_by_ids**: Batch get work items by IDs.
+- **ado_update_work_item**: Update a work item by ID.
+- **ado_create_work_item**: Create a new work item.
+- **ado_list_work_item_comments**: List comments for a work item.
+- **ado_get_work_items_for_current_iteration**: List work items for the current iteration.
+- **ado_get_work_items_for_iteration**: List work items for a specific iteration.
+- **ado_add_work_item_comment**: Add a comment to a work item.
+- **ado_add_child_work_item**: Create a child work item.
+- **ado_update_work_item_assign**: Assign a work item.
+- **ado_link_work_item_to_pull_request**: Link a work item to a pull request.
+- **ado_get_work_item_type**: Get info about a work item type.
+- **ado_get_query**: Get query details by ID or path.
+- **ado_get_query_results_by_id**: Get query results by ID.
+- **ado_update_work_items_batch**: Batch update work items.
+- **ado_close_and_link_workitem_duplicates**: Close duplicate work items.
 
 ### 📁 Repositories
 
-- **ado_list_repos_by_project**: Get a list of repositories for a given project.
-- **ado_list_pull_requests_by_repo**: Get a list of pull requests for a given repository.
-- **ado_list_pull_requests_by_project**: Get a list of pull requests for a given project.
-- **ado_list_branches_by_repo**: 
-- **ado_list_my_branches_by_repo**: 
-- **ado_list_pull_request_threads**: 
-- **ado_list_pull_request_thread_comments**: 
-- **ado_get_repo_by_id**: 
-- **ado_get_repo_by_name**: 
-- **ado_get_branch_by_name**: 
-- **ado_get_pull_request_by_id**: 
-- **ado_create_pull_request**: Creates a new pull request.
-- **ado_publish_pull_request**: Publishes an existing pull request.
-- **ado_abandon_pull_request**: Abandons an existing pull request.
-- **ado_reply_to_comment**: Replies to a specific comment on a pull request.
-- **ado_resolve_comment**: Resolves a specific comment thread on a pull request.
+- **ado_list_repos_by_project**: List repositories for a project.
+- **ado_list_pull_requests_by_repo**: List pull requests for a repository.
+- **ado_list_pull_requests_by_project**: List pull requests for a project.
+- **ado_list_branches_by_repo**: List branches for given repository.
+- **ado_list_my_branches_by_repo**: List of my branches for a given repository.
+- **ado_list_pull_request_threads**: List of comment threads for pull request.
+- **ado_list_pull_request_thread_comments**: List of comments in a pull request thread.
+- **ado_get_repo_by_id**: Get a repository by its id.
+- **ado_get_repo_by_name**: Get a repository by its name.
+- **ado_get_branch_by_name**: Get a branch by its name.
+- **ado_get_pull_request_by_id**: Get a pull request by its id.
+- **ado_create_pull_request**: Create a pull request.
+- **ado_publish_pull_request**: Publish a pull request.
+- **ado_abandon_pull_request**: Abandon a pull request.
+- **ado_reply_to_comment**: Reply to a pull request comment.
+- **ado_resolve_comment**: Resolve a pull request comment thread.
 
 ### 🛰️ Builds
 
-- **ado_get_build_definitions**: Get a list of build definitions for a given project.
-- **ado_get_build_definition_revisions**: Get a list of revisions for a specific build definition.
-- **ado_get_builds**: Get a list of builds for a given project.
-- **ado_get_build_log**: Get the logs for a specific build.
-- **ado_get_build_log_by_id**: Get a specific build log by log ID.
-- **ado_get_build_changes**: Get the changes associated with a specific build.
-- **ado_run_build**: Triggers a new build for a specified definition.
-- **ado_get_build_status**: Fetches the status of a specific build.
+- **ado_get_build_definitions**: List build definitions for a project.
+- **ado_get_build_definition_revisions**: List build definition revisions.
+- **ado_get_builds**: List builds for a project.
+- **ado_get_build_log**: Get build logs.
+- **ado_get_build_log_by_id**: Get a build log by ID.
+- **ado_get_build_changes**: Get build changes.
+- **ado_run_build**: Trigger a build.
+- **ado_get_build_status**: Get build status.
 
 ### 🚀 Releases
 
-- **ado_get_release_definitions**: Gets a list of release definitions for a given project.
-- **ado_get_releases**: Gets a list of releases for a given project.
+- **ado_get_release_definitions**: List release definitions.
+- **ado_get_releases**: List releases for a project.
 
 ### 🧪 Test Plans
 
-- **ado_create_test_plan**: Creates a new test plan in the project.
-- **ado_create_test_case**: Creates a new test case work item in the project.
-- **ado_add_test_cases_to_suite**: Adds existing test cases to a test suite.
-- **ado_show_test_results_from_build_id**: Gets a list of test results in the project.
-- **ado_list_test_cases**: Gets a list of test cases in the test plan.
-- **ado_list_test_plans**: 
+- **ado_create_test_plan**: Create a test plan.
+- **ado_create_test_case**: Create a test case.
+- **ado_add_test_cases_to_suite**: Add test cases to a suite.
+- **ado_show_test_results_from_build_id**: List test results for a build.
+- **ado_list_test_cases**: List test cases in a test plan.
+- **ado_list_test_plans**: List test plans by project.
 
 ### 📄 Wiki
 
-- **ado_list_wikis**: Get the list of wikis for an organization or project.
-- **ado_get_wiki**: Get the wiki by wikiIdentifier.
-- **ado_list_wiki_pages**: Get the list of wiki pages for a specific wiki and project.
-- **ado_get_wiki_page**: Get wiki page by wikiIdentifier and path.
+- **ado_list_wikis**: List wikis for an organization or project.
+- **ado_get_wiki**: Get a wiki by identifier.
+- **ado_list_wiki_pages**: List wiki pages.
+- **ado_get_wiki_page**: Get a wiki page by identifier and path.
 
 ### 🔎 Search
 
-- **ado_code_search**: Get code search results for the given search text.
-- **ado_wiki_search**: Get wiki search results for the given search text.
-- **ado_workitem_search**: Get workitem search results for the given search text.
+- **ado_code_search**: Search code.
+- **ado_wiki_search**: Search wikis.
+- **ado_workitem_search**: Search work items.
 
-## 🔌 Installation and Getting Started
+## 🔌 Installation & Getting Started
 
-Clone this repository, install the content and add it to your MCP client configuration.
+Clone the repository, install dependencies, and add it to your MCP client configuration.
+
+### Visual Studio Code & GitHub Copilot
+
+For the best experience, use Visual Studio Code and GitHub Copilot.
 
 ### Prerequisites
 
-1. Install either the stable or Insiders release of VS Code:
-   * [💫 Stable release](https://code.visualstudio.com/download)
-   * [🔮 Insiders release](https://code.visualstudio.com/insiders)
-2. Install [Node.js](https://nodejs.org/en/download) 20 or later
-   * Ensure `node` and `npm` are in your path
+1. Install [VS Code](https://code.visualstudio.com/download) or [VS Code Insiders](https://code.visualstudio.com/insiders)
+2. Install [Node.js](https://nodejs.org/en/download) 20+
 3. Open VS Code in an empty folder
 
-#### Azure Login
+### Azure Login
 
-The Azure DevOps MCP server will need to talk to your Azure DevOps organization and use local az context to do this. Ensure you are logged in to Azure DevOps using the az CLI:
+Ensure you are logged in to Azure DevOps via the Azure CLI:
 
-```
+```sh
 az login
 ```
 
@@ -150,286 +150,107 @@ az login
 
 #### ✨ One-Click Install
 
-Click one of these buttons to install the AzureDevops MCP Server for VS Code or VS Code Insiders.
-
-[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-Install_AzureDevops_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D) 
+[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-Install_AzureDevops_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
 [![Install with NPX in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_AzureDevops_MCP_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&quality=insiders&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
 
-Once you've installed the Azure DevOps MCP Server, make sure you select GitHub Copilot Agent Mode and refresh the tools list. To learn more about Agent Mode, visit the [VS Code Documentation](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode).
+After installation, select GitHub Copilot Agent Mode and refresh the tools list. Learn more about Agent Mode in the [VS Code Documentation](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode).
 
 #### 🎮 Codespace
 
-Use our GitHub Codespace to get up and running.
+Launch in a GitHub Codespace:
 
 [![Open in GitHub Codespaces]](update_link)
 
-
 #### 🛠️ Manual Install
 
-For a step-by-step installation, follow these instructions:
-
-1. Clone the repository to your local environment.
-2. Install dependencies using npm:
-   ```pwsh
-   npm install; npm install -g .
+1. Clone the repository.
+2. Install dependencies:
+   ```sh
+   npm install
+   npm install -g .
    ```
-   If you encounter authentication issues, ensure your npm registry is set to the public registry. You can check and update it with the following commands:
-   ```pwsh
-   # Check the current registry
-   npm config get registry
-
-   # If not set to npmjs, update it to the public registry
-   npm config set registry https://registry.npmjs.org/
-   ```
-3. Open and edit or add `.vscode/mcp.json`
+3. Edit or add `.vscode/mcp.json`:
 
    ```json
    {
      "inputs": [
-          {
-                "id": "ado_org",
-                "type": "promptString",
-                "description": "Azure DevOps organization name  (e.g. 'contoso')"
-          }
+        {
+           "id": "ado_org",
+           "type": "promptString",
+           "description": "Azure DevOps organization name  (e.g. 'contoso')"
+        }
      ],
      "servers": {
-          "ado": {
-                "type": "stdio",
-                "command": "mcp-server-azuredevops",
-                "args": [
-                     "${input:ado_org}"
-                ]
-          }
+        "ado": {
+            "type": "stdio",
+            "command": "mcp-server-azuredevops",
+            "args": ["${input:ado_org}"]
+        }
      }
    }
    ```
 
-5. Start your server.
-6. In your chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode)
-7. Click "Add Context" and include all available tools that begin with ado_.
+4. Start the Azure DevOps MCP Server:
 
-## 🔦 Using Azure DevOps MCP Server
+   <img src="./docs/media/start-mcp-server.gif" alt="start mcp server" width="250"/>
+
+   Enter your Azure DevOps organization name (e.g. `contoso`).
+
+5. In chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode).
+6. Click "Select Tools" and choose the available `ado_` tools.
+
+   <img src="./docs/media/configure-mcp-server-tools.gif" alt="configure mcp server tools" width="300"/>
+
+## 🔦 Usage
+
+### Visual Studio Code + GitHub Copilot
+
+1. Open GitHub Copilot in VS Code and switch to Agent mode.
+2. Start the Azure DevOps MCP Server.
+3. The server appears in the tools list.
+4. Try prompts like "List ADO projects".
+
+### Visual Studio + GitHub Copilot
+
+> *Prerequisites:* Visual Studio 2022 v17.14+, Agent mode enabled in Tools > Options > GitHub > Copilot > Copilot Chat.
+
+1. Switch to Agent mode in the Copilot Chat window.
+2. Enter your Azure DevOps organization name.
+3. Select desired `ado` tools.
+4. Try prompts like "List ADO projects".
+
+For more details, see [Visual Studio MCP Servers documentation](https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=vs-2022) and [Getting Started Video](https://www.youtube.com/watch?v=oPFecZHBCkg).
 
 ## 📝 Troubleshooting
 
-## 🎩 How to, Suggestions, Best Practices
+See the [Troubleshooting guide](./docs/TroubleShooting.md) for help with common issues and logging.
 
-## ⌨️ Contributing to Azure DevOps MCP Server
+## 🎩 Samples & Best Practices
 
-### Learn More and Get Support
+Find sample prompts and best practices in our [How-to Guide](./docs/HowTo.md).
 
-Here is some additional helpful information:
- - [How to guide](./docs/how-to.md)
- - [Troubleshooting](./docs/Troubleshooting.md)
+## 📌 Contributing
 
-For further assistance, refer to our **[Support Documentation](./SUPPORT.md)**.
+We welcome contributions! During preview, please file Issues for bugs, enhancements, or documentation improvements.
 
-## How to contribute
+See our [Contributions Guide](./CONTRIBUTING.md) for:
 
-All work on the Azure DevOps MCP Server happens directly on GitHub. Both core team members and external contributors send pull requests which go through the same review process.
+ - 🛠️ Development setup
+ - ✨ Adding new tools
+ - 📝 Code style & testing
+ - 🔄 Pull request process
 
-Please make sure to review and adhere to our [Code of Conduct](./CODE_OF_CONDUCT.md) when contributing to this project.
+## 🤝 Code of Conduct
 
-If you are interested in fixing issues (or adding functionality) and contributing directly to the code base, check out the [contributions guide](./CONTRIBUTING.md).
-
-## Getting Started
-
-Clone this repository, install the content and add it to your MCP client configuration.
-
-### Prerequisites
-
-- Node20
-- MCP client
-
-### Installing
-
-For now this package is installed locally into npm binaries directory.
-
-```pwsh
-npm install; npm install -g .
-```
-
-## How to use
-You can run it either locally or remotely. The package is also available on our internal <Feed> feed under mseng (internal).
-Note: When starting the server, remember to update the `mseng` parameter in `mcp.json` to match your organization.
-
-### Remotely 
-[![Open in GitHub Codespaces]](update_link)
-
-Use our Github Codespace and [check the demo]()
-
-### Running server from source code 
-
-1. Checkout the repository.
-2. Install dependencies using npm:
-```pwsh
-npm install; npm install -g .
-```
-If you encounter authentication issues, ensure your npm registry is set to the public registry. You can check and update it with the following commands:
-```pwsh
-# Check the current registry
-npm config get registry
-
-# If not set to npmjs, update it to the public registry
-npm config set registry https://registry.npmjs.org/
-```
-3. Open the **`.vscode/mcp.json`** file
-4. Replace the *mseng* value with your organization name (the one used in `https://dev.azure.com/<organization-name>/`).
-5. Start your server.
-6. In your chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode)
-7. Click "Add Context" and include all available tools that begin with ado_.
-
-### Runing server from exported package (requires access) 
-**Notes**: 
-* To access this, you must have access to <FEED>.
-* If you wish to connect to this feed, please be aware that it is an internal feed and is not available for external access. You can track updates here: [azure-devops-mcp Issue #114](<public_rempo>).
-
-1. Set registry:
-````pwsh
-npm config set registry <FEED>
-````
-2. Install package
-````pwsh
-npm install @modelcontextprotocol/server-azuredevops@0.1.0 
-````
-3. Ingest your mcp.json at your `.vscode/`
-````json
-{
-    "servers": {
-        "ado": {
-            "type": "stdio",
-            "command": "npx",
-            "args": [
-                "-y",
-                "@modelcontextprotocol/server-azuredevops",
-                "mseng"
-            ]
-        }
-    }
-}
-````
-4. Replace the mseng value with your organization name (the one used in `https://dev.azure.com/<organization-name>/`).
-5. Open on `.vscode/mcp.json` 
-6. Click on `Run Server`
-7. Switch to agent mode in your chat: [Introducing GitHub Copilot agent mode (preview)](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode?ref=baus-net)
-8. Click on 'Add Context' and include the available tools that start with ado_.
-9. Ask a question or make a request.
-
-### Troubleshooting
-
-For detailed troubleshooting steps, refer to the [Troubleshooting Guide](./docs/Troubleshooting.md).
-
-### Deployment (CI/CD)
-
-1. **Releases**
-   - Release tags are created for stable versions. New versions are released manually after stability is confirmed
-   - Same for pipeline, we have a scheduling a scheduled Azure DevOps pipeline builds and publishes the latest stable version to the <FEED> npm feed every Monday. Currently, we are not publishing on scheduled runs though, we publish after stability is confirmed.
-
-2. **Artifact Publishing**
-   Artifacts are published to the <FEED> npm feed:
-   - Registry: <REGISTRY> (ADO org only)
-   - Artifacts include the MCP server package for Azure DevOps.
-   - We are in the process of publishing in a new feed which will be exposed internally to Microsoft: [#114](<public_rempo>).
-
-## Access
-
-The MCP server will need to talk to Azure DevOps organization that you chose and use local `az` context to do this.
-
-### Testing individual tools
-
-`echo '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"wit_get_backlog_level_work_items","arguments":{"project":"ggurgul", "team": "ggurgul Team", "backlogLevel": "Feature"}},"id":1}' | npx -y mcp-server-azuredevops buildcanary 2>server.log | jq`
-
-### Support & Reuse Expectations
-
-_The creators of this repository **DO NOT EXPECT REUSE**._
-
-## How to Accomplish Common User Actions
-
-- [modelcontextprotocol.io](https://modelcontextprotocol.io/quickstart/user#server-not-showing-up-in-claude-hammer-icon-missing)
-
-# Tools
-
-### Core
-
-- **ado_list_project_teams**: Get a list of teams for a specific project.
-- **ado_list_projects**: Get a list of projects in the organization.
-- **ado_list_team_iterations**: Get a list of iterations for a specific team.
-
-### Work Items
-
-- **ado_my_work_items**: Get a list of work items relevant to me.
-- **ado_list_backlogs**: Get the list of backlogs for a given project and team.
-- **ado_list_backlog_work_items**: Get the list of for a given team and backlog category
-- **ado_get_work_item**: Get a single work item by ID.
-- **ado_get_work_items_batch_by_ids**: Get work items by IDs in batch.
-- **ado_update_work_item**: Update a work item by ID with specified fields.
-- **ado_create_work_item**: Create a new work item in a specified project and work item type.
-- **ado_list_work_item_comments**: Get comments for a work item by ID.
-- **ado_get_work_items_for_current_iteration**: Get a list of work items for the current iteration.
-- **ado_get_work_items_for_iteration**: Get a list of work items for a specified iteration.
-- **ado_add_work_item_comment**: Add comment to a work item by ID.
-- **ado_add_child_work_item**: Create a child work item from a parent by ID.
-- **ado_update_work_item_assign**: Assign a work item by ID.
-- **ado_link_work_item_to_pull_request**: Links a single work item to an existing pull request.
-- **ado_get_work_item_type**: Get information about a specific work item type.
-- **ado_get_query**: Get the details of a query by its ID or path.
-- **ado_get_query_results_by_id**: Get the results of a query given the query ID.
-- **ado_update_work_items_batch**: Update work items in batch.
-- **ado_close_and_link_workitem_duplicates**: Close duplicate work items by id.
-
-### Repositories
-
-- **ado_list_repos_by_project**: Get a list of repositories for a given project.
-- **ado_list_pull_requests_by_repo**: Get a list of pull requests for a given repository.
-- **ado_list_pull_requests_by_project**: Get a list of pull requests for a given project.
-- **ado_create_pull_request**: Creates a new pull request.
-- **ado_publish_pull_request**: Publishes an existing pull request.
-- **ado_abandon_pull_request**: Abandons an existing pull request.
-- **ado_reply_to_comment**: Replies to a specific comment on a pull request.
-- **ado_resolve_comment**: Resolves a specific comment thread on a pull request.
-
-### Builds
-
-- **ado_get_build_definitions**: Get a list of build definitions for a given project.
-- **ado_get_build_definition_revisions**: Get a list of revisions for a specific build definition.
-- **ado_get_builds**: Get a list of builds for a given project.
-- **ado_get_build_log**: Get the logs for a specific build.
-- **ado_get_build_log_by_id**: Get a specific build log by log ID.
-- **ado_get_build_changes**: Get the changes associated with a specific build.
-- **ado_run_build**: Triggers a new build for a specified definition.
-- **ado_get_build_status**: Fetches the status of a specific build.
-
-### Releases
-
-- **ado_get_release_definitions**: Gets a list of release definitions for a given project.
-- **ado_get_releases**: Gets a list of releases for a given project.
-
-### Test Plans
-
-- **ado_create_test_plan**: Creates a new test plan in the project.
-- **ado_create_test_case**: Creates a new test case work item in the project.
-- **ado_add_test_cases_to_suite**: Adds existing test cases to a test suite.
-- **ado_show_test_results_from_build_id**: Gets a list of test results in the project.
-- **ado_list_test_cases**: Gets a list of test cases in the test plan.
-
-### Wiki
-
-- **ado_list_wikis**: Get the list of wikis for an organization or project.
-- **ado_get_wiki**: Get the wiki by wikiIdentifier.
-- **ado_list_wiki_pages**: Get the list of wiki pages for a specific wiki and project.
-- **ado_get_wiki_page**: Get wiki page by wikiIdentifier and path.
-
-### Search
-
-- **ado_code_search**: Get code search results for the given search text.
-- **ado_wiki_search**: Get wiki search results for the given search text.
-- **ado_workitem_search**: Get workitem search results for the given search text.
+This project follows the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For questions, see the [FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [open@microsoft.com](mailto:open@microsoft.com).
 
 ## License
-This project is licensed under the [MIT License](./LICENSE.md). For complete details, please refer to full terms. 
 
--------
+Licensed under the [MIT License](./LICENSE.md).
 
-_Trademarks: This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos is subject to and must follow Microsoft’s Trademark & Brand Guidelines. Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos are subject to those third-party’s policies._
+---
+
+_Trademarks: This project may include trademarks or logos for Microsoft or third parties. Use of Microsoft trademarks or logos must follow [Microsoft’s Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general). Third-party trademarks are subject to their respective policies._
 
 <!-- version: 2023-04-07 [Do not delete this line, it is used for analytics that drive template improvements] -->
