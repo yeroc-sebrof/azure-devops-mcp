@@ -14,3 +14,5 @@ configuration:
     role: Maintain
   - member: skmanoj
     role: Write
+  - member: KathanS
+    role: Write
