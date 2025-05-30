@@ -9,14 +9,14 @@ This TypeScript project defines the **local** MCP server for Azure DevOps, enabl
 
 > 🚨 **Public Preview:** This project is in public preview. Features and APIs may change before General Availability.
 
-## 📄 Table of Contents
+## 📄 Table of contents
 
 1. [📺 Overview](#-overview)
-2. [⚙️ Supported Tools](#️-supported-tools)
-3. [🔌 Installation & Getting Started](#-installation--getting-started)
+2. [⚙️ Supported tools](#️-supported-tools)
+3. [🔌 Installation & getting started](#-installation--getting-started)
 4. [🔦 Usage](#-usage)
 5. [📝 Troubleshooting](#-troubleshooting)
-6. [🎩 Samples & Best Practices](#-samples--best-practices)
+6. [🎩 Samples & best practices](#-samples--best-practices)
 7. [📌 Contributing](#️-contributing)
 
 ## 📺 Overview
@@ -33,7 +33,7 @@ The Azure DevOps MCP Server brings Azure DevOps context to your agents. Try prom
 - "List my work items for project 'Contoso'"
 - "List work items in current iteration for 'Contoso' project and 'Contoso Team'"
 
-## ⚙️ Supported Tools
+## ⚙️ Supported tools
 
 Interact with these Azure DevOps services:
 
@@ -113,10 +113,7 @@ Interact with these Azure DevOps services:
 
 ### 📄 Wiki
 
-- **ado_list_wikis**: List wikis for an organization or project.
-- **ado_get_wiki**: Get a wiki by identifier.
-- **ado_list_wiki_pages**: List wiki pages.
-- **ado_get_wiki_page**: Get a wiki page by identifier and path.
+*Coming soon*
 
 ### 🔎 Search
 
@@ -124,7 +121,7 @@ Interact with these Azure DevOps services:
 - **ado_wiki_search**: Search wikis.
 - **ado_workitem_search**: Search work items.
 
-## 🔌 Installation & Getting Started
+## 🔌 Installation & getting started
 
 Clone the repository, install dependencies, and add it to your MCP client configuration.
 
@@ -148,26 +145,25 @@ az login
 
 ### Installation
 
-#### ✨ One-Click Install
+#### ✨ One-Click install
 
 [![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-Install_AzureDevops_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
 [![Install with NPX in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_AzureDevops_MCP_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=ado&quality=insiders&config=%7B%20%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22npx%22%2C%20%22args%22%3A%20%5B%22-y%22%2C%20%22%40ado%2Fazure-devops-mcp%22%2C%20%22%24%7Binput%3Aado_org%7D%22%5D%7D&inputs=%5B%7B%22id%22%3A%20%22ado_org%22%2C%20%22type%22%3A%20%22promptString%22%2C%20%22description%22%3A%20%22Azure%20DevOps%20organization%20name%20%20%28e.g.%20%27contoso%27%29%22%7D%5D)
 
 After installation, select GitHub Copilot Agent Mode and refresh the tools list. Learn more about Agent Mode in the [VS Code Documentation](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode).
 
-#### 🎮 Codespace
+#### 🛠️ Installing from source (dev mode)
 
-Launch in a GitHub Codespace:
+This installation method is recommended for advanced users and contributors who want immediate access to the latest updates from the main branch. It is ideal if you are developing new tools, enhancing existing features, or maintaining a custom fork.
 
-[![Open in GitHub Codespaces]](update_link)
+> **Note:** For most users, installing from the public feed is simpler and preferred. Use source installation only if you need the latest changes or are actively contributing to the project.
 
-#### 🛠️ Manual Install
+##### Steps
 
 1. Clone the repository.
 2. Install dependencies:
    ```sh
    npm install
-   npm install -g .
    ```
 3. Edit or add `.vscode/mcp.json`:
 
@@ -191,17 +187,12 @@ Launch in a GitHub Codespace:
    ```
 
 4. Start the Azure DevOps MCP Server:
-
-   <img src="./docs/media/start-mcp-server.gif" alt="start mcp server" width="250"/>
-
-   Enter your Azure DevOps organization name (e.g. `contoso`).
-
 5. In chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode).
 6. Click "Select Tools" and choose the available `ado_` tools.
 
-   <img src="./docs/media/configure-mcp-server-tools.gif" alt="configure mcp server tools" width="300"/>
+See [How To](./docs/HOWTO.md) section for details
 
-#### Placeholder for Public Feed
+#### Placeholder for public feed
 
 Update for Public Feed
 
@@ -229,7 +220,7 @@ For more details, see [Visual Studio MCP Servers documentation](https://learn.mi
 
 See the [Troubleshooting guide](./docs/TROUBLESHOOTING.md) for help with common issues and logging.
 
-## 🎩 Samples & Best Practices
+## 🎩 Samples & best practices
 
 Find sample prompts and best practices in our [How-to Guide](./docs/HOWTO.md).
 
@@ -244,7 +235,7 @@ See our [Contributions Guide](./CONTRIBUTING.md) for:
  - 📝 Code style & testing
  - 🔄 Pull request process
 
-## 🤝 Code of Conduct
+## 🤝 Code of conduct
 
 This project follows the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For questions, see the [FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [open@microsoft.com](mailto:open@microsoft.com).
