@@ -1,10 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AccessToken } from "@azure/identity";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebApi } from "azure-devops-node-api";
-import {
-  TestPlanCreateParams,
-  TestCase,
-} from "azure-devops-node-api/interfaces/TestPlanInterfaces.js";
+import { TestPlanCreateParams } from "azure-devops-node-api/interfaces/TestPlanInterfaces.js";
 import { z } from "zod";
 
 const Test_Plan_Tools = {
@@ -23,16 +23,16 @@ function configureTestPlanTools(
 ) {
   /*
     LIST OF TEST PLANS
-    get list of test plany by project
+    get list of test plans by project
   */
   server.tool(
     Test_Plan_Tools.list_test_plans,
-    "List of test plans by project",
+    "Retrieve a paginated list of test plans from an Azure DevOps project. Allows filtering for active plans and toggling detailed information.",
     {
-      project: z.string(),
-      filterActivePlans: z.boolean().default(true),
-      includePlanDetails: z.boolean().default(false),
-      continuationToken: z.string().optional(),
+      project: z.string().describe("The unique identifier (ID or name) of the Azure DevOps project."),
+      filterActivePlans: z.boolean().default(true).describe("Filter to include only active test plans. Defaults to true."),
+      includePlanDetails: z.boolean().default(false).describe("Include detailed information about each test plan."),
+      continuationToken: z.string().optional().describe("Token to continue fetching test plans from a previous request."),
     },
     async ({
       project,
@@ -65,13 +65,13 @@ function configureTestPlanTools(
     Test_Plan_Tools.create_test_plan,
     "Creates a new test plan in the project.",
     {
-      project: z.string(),
-      name: z.string(),
-      iteration: z.string(),
-      description: z.string().optional(),
-      startDate: z.string().optional(),
-      endDate: z.string().optional(),
-      areaPath: z.string().optional(),
+      project: z.string().describe("The unique identifier (ID or name) of the Azure DevOps project where the test plan will be created."),
+      name: z.string().describe("The name of the test plan to be created."),
+      iteration: z.string().describe("The iteration path for the test plan"),
+      description: z.string().optional().describe("The description of the test plan"),
+      startDate: z.string().optional().describe("The start date of the test plan"),
+      endDate: z.string().optional().describe("The end date of the test plan"),
+      areaPath: z.string().optional().describe("The area path for the test plan"),
     },
     async ({
       project,
@@ -114,10 +114,10 @@ function configureTestPlanTools(
     Test_Plan_Tools.add_test_cases_to_suite,
     "Adds existing test cases to a test suite.",
     {
-      project: z.string(),
-      planId: z.number(),
-      suiteId: z.number(),
-      testCaseIds: z.string().or(z.array(z.string())), // Accept either a comma-separated string or an array
+      project: z.string().describe("The unique identifier (ID or name) of the Azure DevOps project."),
+      planId: z.number().describe("The ID of the test plan."),
+      suiteId: z.number().describe("The ID of the test suite."),
+      testCaseIds: z.string().or(z.array(z.string())).describe("The ID(s) of the test case(s) to add. "),
     },
     async ({ project, planId, suiteId, testCaseIds }) => {
       const connection = await connectionProvider();
@@ -150,12 +150,12 @@ function configureTestPlanTools(
     Test_Plan_Tools.create_test_case,
     "Creates a new test case work item.",
     {
-      project: z.string(),
-      title: z.string(),
-      steps: z.string().optional(),
-      priority: z.number().optional(),
-      areaPath: z.string().optional(),
-      iterationPath: z.string().optional(),
+      project: z.string().describe("The unique identifier (ID or name) of the Azure DevOps project."),
+      title: z.string().describe("The title of the test case."),
+      steps: z.string().optional().describe("The steps to reproduce the test case. Make sure to format each step as '1. Step one\\n2. Step two' etc."),
+      priority: z.number().optional().describe("The priority of the test case."),
+      areaPath: z.string().optional().describe("The area path for the test case."),
+      iterationPath: z.string().optional().describe("The iteration path for the test case."),
     },
     async ({ project, title, steps, priority, areaPath, iterationPath }) => {
       const connection = await connectionProvider();
@@ -228,9 +228,9 @@ function configureTestPlanTools(
     Test_Plan_Tools.list_test_cases,
     "Gets a list of test cases in the test plan.",
     {
-      project: z.string(),
-      planid: z.number(),
-      suiteid: z.number(),
+      project: z.string().describe("The unique identifier (ID or name) of the Azure DevOps project."),
+      planid: z.number().describe("The ID of the test plan."),
+      suiteid: z.number().describe("The ID of the test suite."),
     },
     async ({ project, planid, suiteid }) => {
       const connection = await connectionProvider();
@@ -244,14 +244,14 @@ function configureTestPlanTools(
   );
 
   /*
-    Test results list - LIST
+    Gets a list of test results for a given project and build ID
   */
   server.tool(
     Test_Plan_Tools.test_results_from_build_id,
-    "Gets a list of test results in the project.",
+    "Gets a list of test results for a given project and build ID.",
     {
-      project: z.string(),
-      buildid: z.number(),
+      project: z.string().describe("The unique identifier (ID or name) of the Azure DevOps project."),
+      buildid: z.number().describe("The ID of the build."),
     },
     async ({ project, buildid }) => {
       const connection = await connectionProvider();

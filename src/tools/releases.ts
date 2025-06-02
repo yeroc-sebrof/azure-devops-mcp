@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AccessToken } from "@azure/identity";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebApi } from "azure-devops-node-api";
@@ -20,29 +23,26 @@ function configureReleaseTools(
   tokenProvider: () => Promise<AccessToken>,
   connectionProvider: () => Promise<WebApi>
 ) {
-  /*
-     RELEASE DEFINITIONS
-     Gets a list of release definitions for a given project.
-   */
+  
   server.tool(
     RELEASE_TOOLS.get_release_definitions,
-    "Gets a list of release definitions for a given project.",
+    "Retrieves list of release definitions for a given project.",
     {
-      project: z.string(),
-      searchText: z.string().optional(),
-      expand: z.nativeEnum(ReleaseDefinitionExpands).default(ReleaseDefinitionExpands.None),
-      artifactType: z.string().optional(),
-      artifactSourceId: z.string().optional(),
-      top: z.number().optional(),
-      continuationToken: z.string().optional(),
-      queryOrder: z.nativeEnum(ReleaseDefinitionQueryOrder).default(ReleaseDefinitionQueryOrder.NameAscending),
-      path: z.string().optional(),
-      isExactNameMatch: z.boolean().optional().default(false),
-      tagFilter: z.array(z.string()).optional(),
-      propertyFilters: z.array(z.string()).optional(),
-      definitionIdFilter: z.array(z.string()).optional(),
-      isDeleted: z.boolean().default(false),
-      searchTextContainsFolderName: z.boolean().optional(),
+      project: z.string().describe("Project ID or name to get release definitions for"),
+      searchText: z.string().optional().describe("Search text to filter release definitions"),
+      expand: z.nativeEnum(ReleaseDefinitionExpands).default(ReleaseDefinitionExpands.None).describe("Expand options for release definitions"),
+      artifactType: z.string().optional().describe("Filter by artifact type"),
+      artifactSourceId: z.string().optional().describe("Filter by artifact source ID"),
+      top: z.number().optional().describe("Number of results to return (for pagination)"),
+      continuationToken: z.string().optional().describe("Continuation token for pagination"),
+      queryOrder: z.nativeEnum(ReleaseDefinitionQueryOrder).default(ReleaseDefinitionQueryOrder.NameAscending).describe("Order of the results"),
+      path: z.string().optional().describe("Path to filter release definitions"),
+      isExactNameMatch: z.boolean().optional().default(false).describe("Whether to match the exact name of the release definition. Default is false."),
+      tagFilter: z.array(z.string()).optional().describe("Filter by tags associated with the release definitions"),
+      propertyFilters: z.array(z.string()).optional().describe("Filter by properties associated with the release definitions"),
+      definitionIdFilter: z.array(z.string()).optional().describe("Filter by specific release definition IDs"),
+      isDeleted: z.boolean().default(false).describe("Whether to include deleted release definitions. Default is false."),
+      searchTextContainsFolderName: z.boolean().optional().describe("Whether to include folder names in the search text"),
     },
     async ({
       project,
@@ -88,41 +88,37 @@ function configureReleaseTools(
       };
     }
   );
-
-  /*
-      RELEASES
-      Gets a list of releases for a given project.
-    */
+  
   server.tool(
     RELEASE_TOOLS.get_releases,
-    "Gets a list of releases for a given project.",
+    "Retrieves a list of releases for a given project.",
     {
-      project: z.string().optional(),
-      definitionId: z.number().optional(),
-      definitionEnvironmentId: z.number().optional(),
-      searchText: z.string().optional(),
-      createdBy: z.string().optional(),
-      statusFilter: z.nativeEnum(ReleaseStatus).optional().default(ReleaseStatus.Active),
-      environmentStatusFilter: z.number().optional(),
+      project: z.string().optional().describe("Project ID or name to get releases for"),
+      definitionId: z.number().optional().describe("ID of the release definition to filter releases"),
+      definitionEnvironmentId: z.number().optional().describe("ID of the definition environment to filter releases"),
+      searchText: z.string().optional().describe("Search text to filter releases"),
+      createdBy: z.string().optional().describe("User ID or name who created the release"),
+      statusFilter: z.nativeEnum(ReleaseStatus).optional().default(ReleaseStatus.Active).describe("Status of the releases to filter (default: Active)"),
+      environmentStatusFilter: z.number().optional().describe("Environment status to filter releases"),
       minCreatedTime: z.date().optional().default(() => {
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         return sevenDaysAgo;
-      }),
-      maxCreatedTime: z.date().optional().default(() => new Date()),
-      queryOrder: z.nativeEnum(ReleaseQueryOrder).optional().default(ReleaseQueryOrder.Ascending),
-      top: z.number().optional(),
-      continuationToken: z.number().optional(),
-      expand: z.nativeEnum(ReleaseExpands).optional().default(ReleaseExpands.None),
-      artifactTypeId: z.string().optional(),
-      sourceId: z.string().optional(),
-      artifactVersionId: z.string().optional(),
-      sourceBranchFilter: z.string().optional(),
-      isDeleted: z.boolean().optional().default(false),
-      tagFilter: z.array(z.string()).optional(),
-      propertyFilters: z.array(z.string()).optional(),
-      releaseIdFilter: z.array(z.number()).optional(),
-      path: z.string().optional(),
+      }).describe("Minimum created time for releases (default: 7 days ago)"),
+      maxCreatedTime: z.date().optional().default(() => new Date()).describe("Maximum created time for releases (default: now)"),
+      queryOrder: z.nativeEnum(ReleaseQueryOrder).optional().default(ReleaseQueryOrder.Ascending).describe("Order in which to return releases (default: Ascending)"),
+      top: z.number().optional().describe("Number of releases to return"),
+      continuationToken: z.number().optional().describe("Continuation token for pagination"),
+      expand: z.nativeEnum(ReleaseExpands).optional().default(ReleaseExpands.None).describe("Expand options for releases"),
+      artifactTypeId: z.string().optional().describe("Filter releases by artifact type ID"),
+      sourceId: z.string().optional().describe("Filter releases by artifact source ID"),
+      artifactVersionId: z.string().optional().describe("Filter releases by artifact version ID"),
+      sourceBranchFilter: z.string().optional().describe("Filter releases by source branch"),
+      isDeleted: z.boolean().optional().default(false).describe("Whether to include deleted releases (default: false)"),
+      tagFilter: z.array(z.string()).optional().describe("Filter releases by tags"),
+      propertyFilters: z.array(z.string()).optional().describe("Filter releases by properties"),
+      releaseIdFilter: z.array(z.number()).optional().describe("Filter by specific release IDs"),
+      path: z.string().optional().describe("Path to filter releases"),
     },
     async ({
       project,

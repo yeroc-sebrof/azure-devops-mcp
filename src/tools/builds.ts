@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AccessToken } from "@azure/identity";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebApi } from "azure-devops-node-api";
 import { BuildQueryOrder, DefinitionQueryOrder } from "azure-devops-node-api/interfaces/BuildInterfaces.js";
 import { z } from "zod";
 
-const BUILD_TOOLS = { 
+const BUILD_TOOLS = {
   get_build_definitions: "ado_get_build_definitions",
   get_build_definition_revisions: "ado_get_build_definition_revisions",
   get_builds: "ado_get_builds",
@@ -20,32 +23,28 @@ function configureBuildTools(
   tokenProvider: () => Promise<AccessToken>,
   connectionProvider: () => Promise<WebApi>
 ) {
-    
-  /*
-    BUILD DEFINITIONS
-    Get a list of build definitions for a given project.
-  */
+  
   server.tool(
     BUILD_TOOLS.get_build_definitions,
-    "Get a list of build definitions for a given project.",
+    "Retrieves a list of build definitions for a given project.",
     {
-      project: z.string(),
-      repositoryId: z.string().optional(),
-      repositoryType: z.enum(["TfsGit", "GitHub", "BitbucketCloud"]).optional(),
-      name: z.string().optional(),
-      path: z.string().optional(),
-      queryOrder: z.nativeEnum(DefinitionQueryOrder).optional(),
-      top: z.number().optional(),
-      continuationToken: z.string().optional(),
-      minMetricsTime: z.date().optional(),
-      definitionIds: z.array(z.number()).optional(),
-      builtAfter: z.date().optional(),
-      notBuiltAfter: z.date().optional(),
-      includeAllProperties: z.boolean().optional(),
-      includeLatestBuilds: z.boolean().optional(),
-      taskIdFilter: z.string().optional(),
-      processType: z.number().optional(),
-      yamlFilename: z.string().optional(),
+      project: z.string().describe("Project ID or name to get build definitions for"),
+      repositoryId: z.string().optional().describe("Repository ID to filter build definitions"),
+      repositoryType: z.enum(["TfsGit", "GitHub", "BitbucketCloud"]).optional().describe("Type of repository to filter build definitions"),
+      name: z.string().optional().describe("Name of the build definition to filter"),
+      path: z.string().optional().describe("Path of the build definition to filter"),
+      queryOrder: z.nativeEnum(DefinitionQueryOrder).optional().describe("Order in which build definitions are returned"),
+      top: z.number().optional().describe("Maximum number of build definitions to return"),
+      continuationToken: z.string().optional().describe("Token for continuing paged results"),
+      minMetricsTime: z.date().optional().describe("Minimum metrics time to filter build definitions"),
+      definitionIds: z.array(z.number()).optional().describe("Array of build definition IDs to filter"),
+      builtAfter: z.date().optional().describe("Return definitions that have builds after this date"),
+      notBuiltAfter: z.date().optional().describe("Return definitions that do not have builds after this date"),
+      includeAllProperties: z.boolean().optional().describe("Whether to include all properties in the results"),
+      includeLatestBuilds: z.boolean().optional().describe("Whether to include the latest builds for each definition"),
+      taskIdFilter: z.string().optional().describe("Task ID to filter build definitions"),
+      processType: z.number().optional().describe("Process type to filter build definitions"),
+      yamlFilename: z.string().optional().describe("YAML filename to filter build definitions"),
     },
     async ({
       project,
@@ -93,17 +92,13 @@ function configureBuildTools(
       };
     }
   );
-
-  /*
-    BUILD DEFINITION REVISIONS
-    Get a list of revisions for a specific build definition.
-  */
+  
   server.tool(
     BUILD_TOOLS.get_build_definition_revisions,
-    "Get a list of revisions for a specific build definition.",
+    "Retrieves a list of revisions for a specific build definition.",
     {
-      project: z.string(),
-      definitionId: z.number(),
+      project: z.string().describe("Project ID or name to get the build definition revisions for"),
+      definitionId: z.number().describe("ID of the build definition to get revisions for"),
     },
     async ({ project, definitionId }) => {
       const connection = await connectionProvider();
@@ -115,36 +110,32 @@ function configureBuildTools(
       };
     }
   );
-
-  /*
-    BUILDS - LIST
-    Get a list of builds for a given project.
-  */
+ 
   server.tool(
     BUILD_TOOLS.get_builds,
-    "Get a list of builds for a given project.",
+    "Retrieves a list of builds for a given project.",
     {
-      project: z.string(),
-      definitions: z.array(z.number()).optional(),
-      queues: z.array(z.number()).optional(),
-      buildNumber: z.string().optional(),
-      minTime: z.date().optional(),
-      maxTime: z.date().optional(),
-      requestedFor: z.string().optional(),
-      reasonFilter: z.number().optional(),
-      statusFilter: z.number().optional(),
-      resultFilter: z.number().optional(),
-      tagFilters: z.array(z.string()).optional(),
-      properties: z.array(z.string()).optional(),
-      top: z.number().optional(),
-      continuationToken: z.string().optional(),
-      maxBuildsPerDefinition: z.number().optional(),
-      deletedFilter: z.number().optional(),
-      queryOrder: z.nativeEnum(BuildQueryOrder).default(BuildQueryOrder.QueueTimeDescending).optional(),
-      branchName: z.string().optional(),
-      buildIds: z.array(z.number()).optional(),
-      repositoryId: z.string().optional(),
-      repositoryType: z.enum(["TfsGit", "GitHub", "BitbucketCloud"]).optional(),
+      project: z.string().describe("Project ID or name to get builds for"),
+      definitions: z.array(z.number()).optional().describe("Array of build definition IDs to filter builds"),
+      queues: z.array(z.number()).optional().describe("Array of queue IDs to filter builds"),
+      buildNumber: z.string().optional().describe("Build number to filter builds"),
+      minTime: z.date().optional().describe("Minimum finish time to filter builds"),
+      maxTime: z.date().optional().describe("Maximum finish time to filter builds"),
+      requestedFor: z.string().optional().describe("User ID or name who requested the build"),
+      reasonFilter: z.number().optional().describe("Reason filter for the build (see BuildReason enum)"),
+      statusFilter: z.number().optional().describe("Status filter for the build (see BuildStatus enum)"),
+      resultFilter: z.number().optional().describe("Result filter for the build (see BuildResult enum)"),
+      tagFilters: z.array(z.string()).optional().describe("Array of tags to filter builds"),
+      properties: z.array(z.string()).optional().describe("Array of property names to include in the results"),
+      top: z.number().optional().describe("Maximum number of builds to return"),
+      continuationToken: z.string().optional().describe("Token for continuing paged results"),
+      maxBuildsPerDefinition: z.number().optional().describe("Maximum number of builds per definition"),
+      deletedFilter: z.number().optional().describe("Filter for deleted builds (see QueryDeletedOption enum)"),
+      queryOrder: z.nativeEnum(BuildQueryOrder).default(BuildQueryOrder.QueueTimeDescending).optional().describe("Order in which builds are returned"),
+      branchName: z.string().optional().describe("Branch name to filter builds"),
+      buildIds: z.array(z.number()).optional().describe("Array of build IDs to retrieve"),
+      repositoryId: z.string().optional().describe("Repository ID to filter builds"),
+      repositoryType: z.enum(["TfsGit", "GitHub", "BitbucketCloud"]).optional().describe("Type of repository to filter builds"),
     },
     async ({
       project,
@@ -200,17 +191,13 @@ function configureBuildTools(
       };
     }
   );
-
-  /*
-    BUILDS - GET BUILD LOG
-    Get the logs for a specific build.
-  */
+  
   server.tool(
     BUILD_TOOLS.get_build_log,
-    "Get the logs for a specific build.",
+    "Retrieves the logs for a specific build.",
     {
-      project: z.string(),
-      buildId: z.number(),
+      project: z.string().describe("Project ID or name to get the build log for"),
+      buildId: z.number().describe("ID of the build to get the log for"),
     },
     async ({ project, buildId }) => {
       const connection = await connectionProvider();
@@ -222,20 +209,16 @@ function configureBuildTools(
       };
     }
   );
-
-  /*
-    BUILDS - GET BUILD LOG BY ID
-    Get a specific build log by log ID.
-  */
+  
   server.tool(
     BUILD_TOOLS.get_build_log_by_id,
     "Get a specific build log by log ID.",
     {
-      project: z.string(),
-      buildId: z.number(),
-      logId: z.number(),
-      startLine: z.number().optional(),
-      endLine: z.number().optional(),
+      project: z.string().describe("Project ID or name to get the build log for"),  
+      buildId: z.number().describe("ID of the build to get the log for"),
+      logId: z.number().describe("ID of the log to retrieve"),
+      startLine: z.number().optional().describe("Starting line number for the log content, defaults to 0"),
+      endLine: z.number().optional().describe("Ending line number for the log content, defaults to the end of the log"),
     },
     async ({ project, buildId, logId, startLine, endLine }) => {
       const connection = await connectionProvider();
@@ -253,20 +236,16 @@ function configureBuildTools(
       };
     }
   );
-
-  /*
-    BUILDS - GET BUILD CHANGES
-    Get the changes associated with a specific build.
-  */
+  
   server.tool(
     BUILD_TOOLS.get_build_changes,
     "Get the changes associated with a specific build.",
     {
-      project: z.string(),
-      buildId: z.number(),
-      continuationToken: z.string().optional(),
-      top: z.number().optional(),
-      includeSourceChange: z.boolean().optional(),
+      project: z.string().describe("Project ID or name to get the build changes for"),
+      buildId: z.number().describe("ID of the build to get changes for"),
+      continuationToken: z.string().optional().describe("Continuation token for pagination"),
+      top: z.number().default(100).describe("Number of changes to retrieve, defaults to 100"),
+      includeSourceChange: z.boolean().optional().describe("Whether to include source changes in the results, defaults to false"),
     },
     async ({ project, buildId, continuationToken, top, includeSourceChange }) => {
       const connection = await connectionProvider();
@@ -283,19 +262,20 @@ function configureBuildTools(
         content: [{ type: "text", text: JSON.stringify(changes, null, 2) }],
       };
     }
-  );  
+  );
 
   server.tool(
     BUILD_TOOLS.run_build,
     "Triggers a new build for a specified definition.",
     {
-      project: z.string(),
-      definitionId: z.number(),
+      project: z.string().describe("Project ID or name to run the build in"),
+      definitionId: z.number().describe("ID of the build definition to run"),
+      sourceBranch: z.string().optional().describe("Source branch to run the build from. If not provided, the default branch will be used."),
     },
-    async ({ project, definitionId }) => {
+    async ({ project, definitionId, sourceBranch }) => {
       const connection = await connectionProvider();
       const buildApi = await connection.getBuildApi();
-      const build = await buildApi.queueBuild({ definition: { id: definitionId } }, project);
+      const build = await buildApi.queueBuild({ definition: { id: definitionId }, sourceBranch }, project);
 
       return {
         content: [{ type: "text", text: JSON.stringify(build, null, 2) }],
@@ -307,13 +287,13 @@ function configureBuildTools(
     BUILD_TOOLS.get_build_status,
     "Fetches the status of a specific build.",
     {
-      project: z.string(),
-      buildId: z.number(),
+      project: z.string().describe("Project ID or name to get the build status for"),
+      buildId: z.number().describe("ID of the build to get the status for"),
     },
     async ({ project, buildId }) => {
       const connection = await connectionProvider();
       const buildApi = await connection.getBuildApi();
-      const build = await buildApi.getBuild(project, buildId);
+      const build = await buildApi.getBuildReport(project, buildId);
 
       return {
         content: [{ type: "text", text: JSON.stringify(build, null, 2) }],
