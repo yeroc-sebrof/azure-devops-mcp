@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AccessToken } from "@azure/identity";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebApi } from "azure-devops-node-api";
 import { WorkItemExpand } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces.js";
 import { QueryExpand } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces.js";
 import { z } from "zod";
-import { batchApiVersion, userAgent } from "../utils.js";
+import { batchApiVersion, userAgent } from "@utils";
 
 const WORKITEM_TOOLS = {
   my_work_items: "ado_my_work_items",
@@ -15,11 +18,9 @@ const WORKITEM_TOOLS = {
   update_work_item: "ado_update_work_item",
   create_work_item: "ado_create_work_item",
   list_work_item_comments: "ado_list_work_item_comments",
-  get_work_items_for_current_iteration: "ado_get_work_items_for_current_iteration",
   get_work_items_for_iteration: "ado_get_work_items_for_iteration",
   add_work_item_comment: "ado_add_work_item_comment",
   add_child_work_item: "ado_add_child_work_item",
-  update_work_item_assign: "ado_update_work_item_assign", 
   link_work_item_to_pull_request: "ado_link_work_item_to_pull_request",
   get_work_item_type: "ado_get_work_item_type",
   get_query: "ado_get_query", 
@@ -33,17 +34,17 @@ function configureWorkItemTools(
   tokenProvider: () => Promise<AccessToken>,
   connectionProvider: () => Promise<WebApi>
 ) {
-  /*
-    BACKLOGS
-    Get the list of backlogs for a given project and team.
-  */
+  
   server.tool(
     WORKITEM_TOOLS.list_backlogs,
-    "Get the list of backlogs for a given project and team.",
-    { project: z.string(), team: z.string() },
+    "Revieve a list of backlogs for a given project and team.",
+    { 
+      project: z.string().describe("The name or ID of the Azure DevOps project."), 
+      team: z.string().describe("The name or ID of the Azure DevOps team.") 
+    },
     async ({ project, team }) => {
       const connection = await connectionProvider();
-            const workApi = await connection.getWorkApi();
+      const workApi = await connection.getWorkApi();
       const teamContext = { project, team };
       const backlogs = await workApi.getBacklogs(teamContext);
 
@@ -52,15 +53,15 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    GET BACKLOG ITEMS
-    Get the list of work items for a given backlog
-  */
+ 
   server.tool(
     WORKITEM_TOOLS.list_backlog_work_items,
-    "Get the list of for a given team and backlog category",
-    { project: z.string(), team: z.string(), backlogId: z.string() },
+    "Retrieve a list of backlogs of for a given project, team, and backlog category",
+    { 
+      project: z.string().describe("The name or ID of the Azure DevOps project."), 
+      team: z.string().describe("The name or ID of the Azure DevOps team."), 
+      backlogId: z.string().describe("The ID of the backlog category to retrieve work items from.") 
+    },
     async ({ project, team, backlogId }) => {
       const connection = await connectionProvider();
       const workApi = await connection.getWorkApi();
@@ -76,19 +77,15 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    WORK ITEMS - MY ACTIVITY / ASSIGNED TO ME
-    Get a list of work items relevant to me based on recent activity or assigned to me.
-  */
+ 
   server.tool(
     WORKITEM_TOOLS.my_work_items,
-    "Get a list of work items relevant to me.",
+    "Retrieve a list of work items relevent to the authenticated user.",
     {
       projectId: z.string(),
-      type: z.enum(["assignedtome", "myactivity"]).default("assignedtome"),
-      top: z.number().default(50),
-      includeCompleted: z.boolean().default(false),
+      type: z.enum(["assignedtome", "myactivity"]).default("assignedtome").describe("The type of work items to retrieve. Defaults to 'assignedtome'."),
+      top: z.number().default(50).describe("The maximum number of work items to return. Defaults to 50."),
+      includeCompleted: z.boolean().default(false).describe("Whether to include completed work items. Defaults to false."),
     },
     async ({ projectId, type, top, includeCompleted }) => {
       const connection = await connectionProvider();
@@ -106,15 +103,14 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    GET WORK ITEMS BATCH
-    Get a list of work items in a batch.    
-  */
+ 
   server.tool(
     WORKITEM_TOOLS.get_work_items_batch_by_ids,
-    "Get work items by IDs in batch.",
-    { project: z.string(), ids: z.array(z.number()) },
+    "Retrieve list of work items by IDs in batch.",
+    { 
+      project: z.string().describe("The name or ID of the Azure DevOps project."), 
+      ids: z.array(z.number()).describe("The IDs of the work items to retrieve.")  
+    },
     async ({ project, ids }) => {
       const connection = await connectionProvider();
       const workItemApi = await connection.getWorkItemTrackingApi();
@@ -125,22 +121,19 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    GET WORK ITEM
-    Get a work item by ID.  
-  */
+  
   server.tool(
     WORKITEM_TOOLS.get_work_item,
     "Get a single work item by ID.",
     {
-      id: z.number(),
-      project: z.string(),
-      fields: z.array(z.string()).optional(),
-      asOf: z.date().optional(),
+      id: z.number().describe("The ID of the work item to retrieve."),
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      fields: z.array(z.string()).optional().describe("Optional list of fields to include in the response. If not provided, all fields will be returned."),
+      asOf: z.date().optional().describe("Optional date to retrieve the work item as of a specific time. If not provided, the current state will be returned."),
       expand: z
         .enum(["all", "fields", "links", "none", "relations"])
-        .optional(),
+        .describe("Optional expand parameter to include additional details in the response.")
+        .optional().describe("Expand options include 'all', 'fields', 'links', 'none', and 'relations'. Defaults to 'none'."),
     },
     async ({ id, project, fields, asOf, expand }) => {
       const connection = await connectionProvider();
@@ -157,15 +150,15 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    GET COMMENTS
-    get the comments for a work item by ID.  
-  */
+  
   server.tool(
     WORKITEM_TOOLS.list_work_item_comments,
-    "Get comments for a work item by ID.",
-    { project: z.string(), workItemId: z.number(), top: z.number().optional() },
+    "Retrieve list of comments for a work item by ID.",
+    { 
+      project: z.string().describe("The name or ID of the Azure DevOps project."), 
+      workItemId: z.number().describe("The ID of the work item to retrieve comments for."), 
+      top: z.number().default(50).describe("Optional number of comments to retrieve. Defaults to all comments.") 
+    },
     async ({ project, workItemId, top }) => {
       const connection = await connectionProvider();
       const workItemApi = await connection.getWorkItemTrackingApi();
@@ -176,15 +169,15 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-  ADD COMMENT
-  add a comment for a work item by ID.  
-  */
+ 
   server.tool(
     WORKITEM_TOOLS.add_work_item_comment,
     "Add comment to a work item by ID.",
-    { project: z.string(), workItemId: z.number(), comment: z.string() },
+    { 
+      project: z.string().describe("The name or ID of the Azure DevOps project."), 
+      workItemId: z.number().describe("The ID of the work item to add a comment to."), 
+      comment: z.string().describe("The text of the comment to add to the work item.") 
+    },
     async ({ project, workItemId, comment }) => {
       const connection = await connectionProvider();
       const workItemApi = await connection.getWorkItemTrackingApi();
@@ -201,50 +194,20 @@ function configureWorkItemTools(
         ],
       };
     }
-  );
+  ); 
 
-  /*
-    ASSIGN WORK ITEM 
-    Assign a work item.
-  */
+ 
   server.tool(
-    WORKITEM_TOOLS.update_work_item_assign,
-    "Assign a work item by ID.",
-    { id: z.number(), project: z.string(), assignedTo: z.string() },
-    async ({ id, project, assignedTo }) => {
-      const connection = await connectionProvider();
-      const workItemApi = await connection.getWorkItemTrackingApi();
-      const document = [
-        { op: "add", path: "/fields/System.AssignedTo", value: assignedTo },
-      ];
-      const workitem = await workItemApi.updateWorkItem(
-        null,
-        document,
-        id,
-        project
-      );
-
-      return {
-        content: [{ type: "text", text: JSON.stringify(workitem, null, 2) }],
-      };
-    }
-  );
-
-  /*
-    CREATE CHILD WORK ITEM
-    Create a child work item from a parent by ID, specifying the work item type, title, and description.
-  */
-    server.tool(
       WORKITEM_TOOLS.add_child_work_item,
       "Create a child work item from a parent by ID.",
       {
-        parentId: z.number(),
-        project: z.string(),
-        workItemType: z.string(),
-        title: z.string(),
-        description: z.string(),
-        areaPath: z.string().optional(),
-        iterationPath: z.string().optional(),
+        parentId: z.number().describe("The ID of the parent work item to create a child work item under."),
+        project: z.string().describe("The name or ID of the Azure DevOps project."),
+        workItemType: z.string().describe("The type of the child work item to create."),
+        title: z.string().describe("The title of the child work item."),
+        description: z.string().describe("The description of the child work item."),
+        areaPath: z.string().optional().describe("Optional area path for the child work item."),
+        iterationPath: z.string().optional().describe("Optional iteration path for the child work item."),
       },
       async ({
         parentId,
@@ -309,23 +272,18 @@ function configureWorkItemTools(
         };
       }
     );
-
-  /* 
-    LINK WORK ITEM TO PULL REQUEST
-    Links a single work item to an existing pull request using ArtifactLink WorkItemRelations.
-  */
+  
   server.tool(
     WORKITEM_TOOLS.link_work_item_to_pull_request,
-    "Links a single work item to an existing pull request.",
+    "Link a single work item to an existing pull request.",
     {
-      project: z.string(),
-      repositoryId: z.string(),
-      pullRequestId: z.number(),
-      workItemId: z.number(),
+      project: z.string().describe,
+      repositoryId: z.string().describe("The ID of the repository containing the pull request. Do not use the repository name here, use the ID instead."),
+      pullRequestId: z.number().describe("The ID of the pull request to link to."),
+      workItemId: z.number().describe("The ID of the work item to link to the pull request."),
     },
     async ({ project, repositoryId, pullRequestId, workItemId }) => {
       const connection = await connectionProvider();
-      const orgUrl = connection.serverUrl;
       const workItemTrackingApi = await connection.getWorkItemTrackingApi();
       try {
         // Create artifact link relation using vstfs format
@@ -351,7 +309,7 @@ function configureWorkItemTools(
         ];
 
         // Use the WorkItem API to update the work item with the new relation
-        const updatedWorkItem = await workItemTrackingApi.updateWorkItem(
+        await workItemTrackingApi.updateWorkItem(
           {},
           patchDocument,
           workItemId,
@@ -398,62 +356,15 @@ function configureWorkItemTools(
         };
       }
     }
-  );
-
-  /*
-    GET WORK ITEMS FOR CURRENT ITERATION
-    Get a list of work item for the current iteration
-  */
-  server.tool(
-    WORKITEM_TOOLS.get_work_items_for_current_iteration,
-    "Get a list of work items for the current iteration.",
-    {
-      project: z.string(),
-      team: z.string().optional(),
-    },
-    async ({ project, team }) => {
-      const timeframe: "current" = "current";
-      const connection = await connectionProvider();
-      const workApi = await connection.getWorkApi();
-
-      //get the current iteration for the team
-      const iterations = await workApi.getTeamIterations(
-        { project, team },
-        timeframe
-      );
-
-      //get the first iteration id, this should be the only result
-      const iterationId = iterations.length > 0 ? iterations[0].id : null;
-
-      if (!iterationId) {
-        throw new Error(
-          "No current iteration found for the specified project and team."
-        );
-      }
-
-      //get the work items for the current iteration
-      const workItems = await workApi.getIterationWorkItems(
-        { project, team },
-        iterationId
-      );
-
-      return {
-        content: [{ type: "text", text: JSON.stringify(workItems, null, 2) }],
-      };
-    }
-  );
-
-  /*
-    GET WORK ITEMS AN ITERATION
-    Get a list of work items for a specific iteration
-  */
+  );  
+  
   server.tool(
     WORKITEM_TOOLS.get_work_items_for_iteration,
-    "Get a list of work items for a specified iteration.",
+    "Retrieve a list of work items for a specified iteration.",
     {
-      project: z.string(),
-      team: z.string().optional(),
-      iterationId: z.string(),
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      team: z.string().optional().describe("The name or ID of the Azure DevOps team. If not provided, the default team will be used."),
+      iterationId: z.string().describe("The ID of the iteration to retrieve work items for."),
     },
     async ({ project, team, iterationId }) => {
       const connection = await connectionProvider();
@@ -470,23 +381,19 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    UPDATE WORK ITEM
-    Update a work item by ID with specified fields.
-  */
+ 
   server.tool(
     WORKITEM_TOOLS.update_work_item,
     "Update a work item by ID with specified fields.",
     {
-      id: z.number(),
+      id: z.number().describe("The ID of the work item to update."),
       updates: z.array(
         z.object({
-          op: z.enum(["add", "replace", "remove"]).default("add"),
-          path: z.string(),
-          value: z.string(),
+          op: z.enum(["add", "replace", "remove"]).default("add").describe("The operation to perform on the field."),
+          path: z.string().describe("The path of the field to update, e.g., '/fields/System.Title'."),
+          value: z.string().describe("The new value for the field. This is required for 'add' and 'replace' operations, and should be omitted for 'remove' operations."),
         })
-      ),
+      ).describe("An array of field updates to apply to the work item."),
     },
     async ({ id, updates }) => {
       const connection = await connectionProvider();
@@ -504,17 +411,13 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    GET WORK ITEM TYPE
-    Get information about a specific work item type.
-  */
+ 
   server.tool(
     "ado_get_work_item_type",
-    "Get information about a specific work item type.",
+    "Get a specific work item type.",
     {
-      project: z.string(),
-      workItemType: z.string(),
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      workItemType: z.string().describe("The name of the work item type to retrieve."),
     },
     async ({ project, workItemType }) => {
       const connection = await connectionProvider();
@@ -532,18 +435,14 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-      CREATE WORK ITEM
-      Create a new work item in a specified project and work item type.
-  */
+ 
   server.tool(
     WORKITEM_TOOLS.create_work_item,
     "Create a new work item in a specified project and work item type.",
     {
-      project: z.string(),
-      workItemType: z.string(),
-      fields: z.record(z.string(), z.string()),
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      workItemType: z.string().describe("The type of work item to create, e.g., 'Task', 'Bug', etc."),
+      fields: z.record(z.string(), z.string()).describe("A record of field names and values to set on the new work item. Each key is a field name, and each value is the corresponding value to set for that field."),
     },
     async ({ project, workItemType, fields }) => {
       const connection = await connectionProvider();
@@ -567,21 +466,17 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    GET QUERY 
-    Get an individual query and its children by ID or path.
-  */
+  
   server.tool(
     WORKITEM_TOOLS.get_query,
-    "Get the details of a query by its ID or path.",
+    "Get a query by its ID or path.",
     {
-      project: z.string(),
-      query: z.string(),
-      expand: z.enum(["all", "clauses", "minimal", "none", "wiql"]).optional(),
-      depth: z.number().optional(),
-      includeDeleted: z.boolean().optional(),
-      useIsoDateFormat: z.boolean().optional(),
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      query: z.string().describe("The ID or path of the query to retrieve."),
+      expand: z.enum(["all", "clauses", "minimal", "none", "wiql"]).optional().describe("Optional expand parameter to include additional details in the response. Defaults to 'none'."),
+      depth: z.number().default(0).describe("Optional depth parameter to specify how deep to expand the query. Defaults to 0."),
+      includeDeleted: z.boolean().default(false).describe("Whether to include deleted items in the query results. Defaults to false."),
+      useIsoDateFormat: z.boolean().default(false).describe("Whether to use ISO date format in the response. Defaults to false."),
     },
     async ({
       project,
@@ -611,19 +506,15 @@ function configureWorkItemTools(
     }
   );
 
-  /*
-    GET QUERY RESULTS BY ID
-    Get the results of a query given the query ID.
-  */
   server.tool(
     WORKITEM_TOOLS.get_query_results_by_id,
-    "Get the results of a query given the query ID.",
+    "Retrieve the results of a work item query given the query ID.",
     {
-      id: z.string(),
-      project: z.string().optional(),
-      team: z.string().optional(),
-      timePrecision: z.boolean().optional(),
-      top: z.number().default(50),
+      id: z.string().describe("The ID of the query to retrieve results for."),
+      project: z.string().optional().describe("The name or ID of the Azure DevOps project. If not provided, the default project will be used."),
+      team: z.string().optional().describe("The name or ID of the Azure DevOps team. If not provided, the default team will be used."),
+      timePrecision: z.boolean().optional().describe("Whether to include time precision in the results. Defaults to false."),
+      top: z.number().default(50).describe("The maximum number of results to return. Defaults to 50."),
     },
     async ({ id, project, team, timePrecision, top }) => {
       const connection = await connectionProvider();
@@ -641,23 +532,19 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    UPDATE WORK ITEMS BATCH
-    Update multiple work items in batch with specified fields.
-  */
+ 
   server.tool(
     WORKITEM_TOOLS.update_work_items_batch,
     "Update work items in batch",
     {
       updates: z.array(
         z.object({
-          op: z.enum(["add", "replace", "remove"]).default("add"),
-          id: z.number(),
-          path: z.string(),
-          value: z.string(),
+          op: z.enum(["add", "replace", "remove"]).default("add").describe("The operation to perform on the field."),
+          id: z.number().describe("The ID of the work item to update."),
+          path: z.string().describe("The path of the field to update, e.g., '/fields/System.Title'."),
+          value: z.string().describe("The new value for the field. This is required for 'add' and 'replace' operations, and should be omitted for 'remove' operations."),
         })
-      ),
+      ).describe("An array of updates to apply to work items. Each update should include the operation (op), work item ID (id), field path (path), and new value (value)."),
     },
     async ({ updates }) => {
       const connection = await connectionProvider();
@@ -706,19 +593,15 @@ function configureWorkItemTools(
       };
     }
   );
-
-  /*
-    CLOSE AND LINK WORK ITEM DUPLICATES
-    Close out duplicate work items and link back to the winning duplicate of
-  */
+ 
   server.tool (
     WORKITEM_TOOLS.close_and_link_workitem_duplicates,
     "Close duplicate work items by id.",
     {
-      id: z.number(),
-      duplicateIds: z.array(z.number()),
-      project: z.string(),
-      state: z.string(),
+      id: z.number().describe("The ID of the work item to close and link duplicates to."),
+      duplicateIds: z.array(z.number()).describe("An array of IDs of the duplicate work items to close and link to the specified work item."),
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      state: z.string().default("Removed").describe("The state to set for the duplicate work items. Defaults to 'Removed'."),
     },
     async ({ id, duplicateIds, project, state }) => {
       const connection = await connectionProvider();

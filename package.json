@@ -1,6 +1,6 @@
 {
-  "name": "@modelcontextprotocol/server-azuredevops",
-  "version": "0.7.0",
+  "name": "@microsoft/azure-devops-mcp",
+  "version": "0.1.0",
   "description": "MCP server for interacting with Azure DevOps",
   "license": "MIT",
   "author": "Microsoft Corporation",
@@ -14,29 +14,39 @@
     "dist"
   ],
   "scripts": {
+    "preinstall": "npm config set registry https://registry.npmjs.org/",
     "prebuild": "node -p \"'export const packageVersion = ' + JSON.stringify(require('./package.json').version) + ';\\r'\" > src/version.ts",
     "build": "tsc && shx chmod +x dist/*.js",
     "prepare": "npm run build",
     "watch": "tsc --watch",
-    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js mseng",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js",
     "start": "node -r tsconfig-paths/register dist/index.js",
-    "clean": "shx rm -rf dist"
+    "eslint": "eslint",
+    "eslint-fix": "eslint --fix",
+    "clean": "shx rm -rf dist",
+    "test": "jest"
   },
   "dependencies": {
-    "@azure/identity": "^4.8.0",
-    "@modelcontextprotocol/sdk": "1.11.3",
+    "@azure/identity": "^4.10.0",
+    "@modelcontextprotocol/sdk": "1.12.0",
     "azure-devops-extension-api": "^4.252.0",
-    "azure-devops-extension-sdk": "^2.0.0",
+    "azure-devops-extension-sdk": "^4.0.2",
     "azure-devops-node-api": "^15.1.0",
     "save-dev": "^0.0.1-security",
-    "zod": "^3.25.23",
+    "zod": "^3.25.30",
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
-    "@modelcontextprotocol/inspector": "^0.13.0",
+    "@modelcontextprotocol/inspector": "^0.12.0",
     "@types/node": "^22",
+    "@types/jest": "^29.5.14",
+    "eslint-plugin-header": "^3.1.1",
+    "jest": "^29.7.0",
+    "jest-extended": "^5.0.3",
     "shx": "^0.4.0",
+    "ts-jest": "^29.3.4",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
   }
 }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { AccessToken } from "@azure/identity";
 import { WebApi } from "azure-devops-node-api";

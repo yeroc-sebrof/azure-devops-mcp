@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import * as azdev from "azure-devops-node-api";
@@ -18,7 +22,8 @@ export const orgName = args[0];
 const orgUrl = "https://dev.azure.com/" + orgName;
 
 async function getAzureDevOpsToken(): Promise<AccessToken> {
-  const credential = new DefaultAzureCredential();
+  process.env.AZURE_TOKEN_CREDENTIALS = "dev";
+  const credential = new DefaultAzureCredential(); // CodeQL [SM05138] resolved by explicitly setting AZURE_TOKEN_CREDENTIALS
   const token = await credential.getToken("499b84ac-1321-427f-aa17-267ca6975798/.default");
   return token;
 }

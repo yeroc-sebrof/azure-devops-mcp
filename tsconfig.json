@@ -20,11 +20,15 @@
       ],
       "@config/*": [
         "config/*"
-      ]
+      ],
+      "@utils": [
+        "utils.js"
+     ]
     }
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "./docs/**/*"
   ],
   "exclude": [
     "node_modules",

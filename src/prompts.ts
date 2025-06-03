@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   McpServer
 } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -9,7 +12,7 @@ function configurePrompts(server: McpServer) {
     "relevant_pull_requests",
     "Presents the list of relevant pull requests for a given repository.",
     { repositoryId: z.string() },
-    ({ repositoryId }: any) => ({
+    ({ repositoryId }) => ({
       messages: [
         {
           role: "user",
