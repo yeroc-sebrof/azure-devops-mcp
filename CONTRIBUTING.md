@@ -2,13 +2,13 @@
 
 Thank you for your interest in contributing to the Azure DevOps MCP Server! Your participation—whether through discussions, reporting issues, or suggesting improvements—helps us make the project better for everyone.
 
-## 🪲 Bugs and Feature Requests
+## 🪲 Bugs and feature requests
 
 Before submitting a new issue or suggestion, please search the existing issues to check if it has already been reported. If you find a matching issue, upvote (👍) it and consider adding a comment describing your specific scenario or requirements. This helps us prioritize based on community impact.
 
-If your concern is not already tracked, feel free to [log a new issue](<repo>_issues). The code owners team will review your submission and may approve, request clarification, or reject it. Once approved, you can proceed with your contribution.
+If your concern is not already tracked, feel free to [log a new issue](https://github.com/microsoft/azure-devops-mcp/issues). The code owners team will review your submission and may approve, request clarification, or reject it. Once approved, you can proceed with your contribution.
 
-## 📝 Creating Issues
+## 📝 Creating issues
 
 When creating an issue:
 
@@ -18,19 +18,18 @@ When creating an issue:
 
 For reference, see [this example of a well-formed issue](<repo>_issues/41).
 
-## 👩‍💻 Writing Code
+## 👩‍💻 Writing code
 
 We are **not currently accepting pull requests** during the public preview phase. If you notice something that should be changed or added, please create an issue and provide details.
 
-## 🖊️ Coding Style
+## 🖊️ Coding style
 
 Follow the established patterns and styles in the repository. If you have suggestions for improvements, please open a new issue for discussion.
 
-## 🤝 Code of Conduct
+## 📑 Documentation
 
-This project follows the
-[Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information, see the
-[Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
-or contact [open@microsoft.com](mailto:open@microsoft.com)
-with any additional questions or comments.
+Update relevant documentation (e.g., README, existing code comments) to reflect new or altered functionality. Well-documented changes enable reviewers and future contributors to quickly understand the rationale and intended use of your code.
+
+## 🤝 Code of conduct
+
+You can find our code of conduct at the [Code of Conduct](./CODE_OF_CONDUCT.md) as a guideline for expected behavior in also at the contributions here. Please take a moment to review it before contributing.

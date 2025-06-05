@@ -10,7 +10,7 @@ From the [GitHub documentation](https://docs.github.com/en/copilot/customizing-c
 
 #### Example Modification
 
-Here is an example modifications you can add to your existing `.github/copilot-instructions.md` file.
+Here is an example modification you can add to your existing `.github/copilot-instructions.md` file.
 
 ```markdown
 ## Using MCP Server for Azure DevOps
@@ -49,7 +49,27 @@ The [Sequential Thinking](https://mcp.so/server/sequentialthinking) component he
 
 Communicating with the LLM is both an art and a science. If the model does not respond well, switching to a different model may improve your results.
 
+## 🚗 Using MCP Server in Visual Studio Code
+
+### Start the Azure DevOps MCP Server:
+
+To start the Azure DevOps MCP Server, open the `.vscode\mcp.json` file and click 'Start'
+
+<img src="./media/start-mcp-server.gif" alt="start mcp server" width="250"/>
+
+Enter your Azure DevOps organization name (e.g. `contoso`).
+
+In chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode).
+
+### Enable or disable tools
+
+Click "Select Tools" and choose the available `ado_` tools.
+
+<img src="./media/configure-mcp-server-tools.gif" alt="configure mcp server tools" width="300"/>
+
 ## 📽️ Examples
+
+> 📝 These examples have been tested and validated only in English. If you encounter issues when using a different language, please open an issue in the repository so we can investigate.
 
 #### Projects and Teams
 
