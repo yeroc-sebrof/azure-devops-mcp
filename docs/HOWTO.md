@@ -71,7 +71,7 @@ Click "Select Tools" and choose the available `ado_` tools.
 
 > 📝 These examples have been tested and validated only in English. If you encounter issues when using a different language, please open an issue in the repository so we can investigate.
 
-#### Projects and Teams
+### Projects and teams
 
 Most work item tools require project context. You can retrieve the list of projects and specify the desired project:
 
@@ -85,9 +85,10 @@ This command returns all Azure DevOps projects for the organization defined in t
 get list of teams for project contoso
 ```
 
-[![MPC Server for Azure DevOps: Get list of projects and teams](https://i9.ytimg.com/vi_webp/y_ri8n7mBlg/mqdefault.webp?sqp=CPjD7sAG&rs=AOn4CLC_vP4RGB4n-umKDZoaSTk8FTamUQ)](https://youtu.be/x579E4_jNtY "MPC Server for Azure DevOps: Get list of projects and teams")
+[![MPC Server for Azure DevOps: Get list of projects and teams](https://i9.ytimg.com/vi_webp/x579E4_jNtY/mqdefault.webp?sqp=CKjRi8IG&rs=AOn4CLCoy-3jlT_XHBNvCyQG7zFrEdwRxw)](https://youtu.be/x579E4_jNtY "MPC Server for Azure DevOps: Get list of projects and teams")
 
-#### Get My Work Items
+
+### Get my work items
 
 Retrieve a list of work items assigned to you. This tool requires project context:
 
@@ -97,9 +98,9 @@ get my work items for project contoso
 
 The model should automatically use the `ado_get_work_items_batch_by_ids` tool to fetch work item details.
 
-[![MPC Server for Azure DevOps: Get my work items](https://i9.ytimg.com/vi_webp/x579E4_jNtY/mqdefault.webp?sqp=CPjD7sAG&rs=AOn4CLDeEq2Fr67GRW81zj3jInz-NSB2BA)](https://youtu.be/y_ri8n7mBlg "MPC Server for Azure DevOps: Get my work items")
+[![MPC Server for Azure DevOps: Get my work items](https://i9.ytimg.com/vi_webp/y_ri8n7mBlg/mqdefault.webp?sqp=CKjRi8IG&rs=AOn4CLBiYBecaLow3qUw7AsRwNmbe-Bgig)](https://youtu.be/y_ri8n7mBlg "MPC Server for Azure DevOps: Get my work items")
 
-#### Get Backlog
+### Get all work items in a backlog
 
 You need project, team and backlog (Epics, Stories, Features) context in order to get a list of all the work items in a backlog.
 
@@ -115,4 +116,4 @@ get list of work items for Features backlog
 
 The model should automatically use the `ado_get_work_items_batch_by_ids` tool to fetch work item details.
 
-[![MPC Server for Azure DevOps: Get backlog](https://i9.ytimg.com/vi/LouuyoscNrI/mqdefault.jpg?sqp=CNzd7sAG-oaymwEmCMACELQB8quKqQMa8AEB-AHUBoAC4AOKAgwIABABGGUgZShlMA8=&rs=AOn4CLCwbaa2CKiyiIfOkpNdHv3fcbIwdA)](https://youtu.be/LouuyoscNrI "MPC Server for Azure DevOps: Get backlog")
+[![MPC Server for Azure DevOps: Get backlog](https://i9.ytimg.com/vi/LouuyoscNrI/mqdefault.jpg?sqp=CKjRi8IG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFsgWyhbMA8=&rs=AOn4CLBZHRzzFXZtIMG8RQzNU7exGui8kg)](https://youtu.be/LouuyoscNrI "MPC Server for Azure DevOps: Get backlog")
