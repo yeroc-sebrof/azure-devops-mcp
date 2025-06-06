@@ -71,7 +71,7 @@ Click "Select Tools" and choose the available `ado_` tools.
 
 > 📝 These examples have been tested and validated only in English. If you encounter issues when using a different language, please open an issue in the repository so we can investigate.
 
-### Projects and teams
+### ✔️ Projects and teams
 
 Most work item tools require project context. You can retrieve the list of projects and specify the desired project:
 
@@ -88,7 +88,7 @@ get list of teams for project contoso
 [![MPC Server for Azure DevOps: Get list of projects and teams](https://i9.ytimg.com/vi_webp/x579E4_jNtY/mqdefault.webp?sqp=CKjRi8IG&rs=AOn4CLCoy-3jlT_XHBNvCyQG7zFrEdwRxw)](https://youtu.be/x579E4_jNtY "MPC Server for Azure DevOps: Get list of projects and teams")
 
 
-### Get my work items
+### ✔️ Get my work items
 
 Retrieve a list of work items assigned to you. This tool requires project context:
 
@@ -100,7 +100,7 @@ The model should automatically use the `ado_get_work_items_batch_by_ids` tool to
 
 [![MPC Server for Azure DevOps: Get my work items](https://i9.ytimg.com/vi_webp/y_ri8n7mBlg/mqdefault.webp?sqp=CKjRi8IG&rs=AOn4CLBiYBecaLow3qUw7AsRwNmbe-Bgig)](https://youtu.be/y_ri8n7mBlg "MPC Server for Azure DevOps: Get my work items")
 
-### Get all work items in a backlog
+### ✔️ Get all work items in a backlog
 
 You need project, team and backlog (Epics, Stories, Features) context in order to get a list of all the work items in a backlog.
 
@@ -117,3 +117,24 @@ get list of work items for Features backlog
 The model should automatically use the `ado_get_work_items_batch_by_ids` tool to fetch work item details.
 
 [![MPC Server for Azure DevOps: Get backlog](https://i9.ytimg.com/vi/LouuyoscNrI/mqdefault.jpg?sqp=CKjRi8IG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFsgWyhbMA8=&rs=AOn4CLBZHRzzFXZtIMG8RQzNU7exGui8kg)](https://youtu.be/LouuyoscNrI "MPC Server for Azure DevOps: Get backlog")
+
+### ✔️ Retrieve and edit work items
+
+Get a work item, get the work item comments, update the work item fields, and add a new comment.
+
+```plaintext
+Get work item 12345 and show me fields ID, Type, State, Repro Steps, Story Points, and Priority. Get all comments for the work item and summarize them for me.
+```
+
+The model now has context of the work item. You can then update specific fields. In this case, we want the LLM to generate a better set of Repro Steps and then update the work item with those new steps. Along with updating the Story Points and State fields.
+
+```plaintext
+Polish the Repro Steps with more information and details. Then take that value and update the work item. Also update StoryPoints = 5 and State = Active.
+```
+Add an follow up update to assign the work item to me and add a new comment.
+
+```plaintext
+Assign this work item to myemail@outlook.com and add a comment "I will own this Bug and get it fixed"
+```
+
+[![MPC Server for Azure DevOps: Work with Work Items](https://i9.ytimg.com/vi/tT7wqSIPKdA/mqdefault.jpg?sqp=CNiljMIG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGCogVChyMA8=&rs=AOn4CLDiAUFB07UFK5kAYTGFtH-gAzhqhQ)](https://youtu.be/tT7wqSIPKdA "MPC Server for Azure DevOps: Work with Work Items")
