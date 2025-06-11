@@ -1,5 +1,5 @@
 {
-  "name": "@microsoft/azure-devops-mcp",
+  "name": "@azure-devops/mcp",
   "version": "0.1.0",
   "description": "MCP server for interacting with Azure DevOps",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "azure-devops-extension-sdk": "^4.0.2",
     "azure-devops-node-api": "^15.1.0",
     "save-dev": "^0.0.1-security",
-    "zod": "^3.25.30",
+    "zod": "^3.25.55",
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@types/jest": "^29.5.14",
     "eslint-plugin-header": "^3.1.1",
     "jest": "^29.7.0",
-    "jest-extended": "^5.0.3",
+    "jest-extended": "^6.0.0",
     "shx": "^0.4.0",
     "ts-jest": "^29.3.4",
     "tsconfig-paths": "^4.2.0",

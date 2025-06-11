@@ -9,20 +9,20 @@ import { z } from "zod";
 import { getCurrentUserDetails } from "./auth.js";
 
 const REPO_TOOLS = {
-  list_repos_by_project: "ado_list_repos_by_project",
-  list_pull_requests_by_repo: "ado_list_pull_requests_by_repo",
-  list_pull_requests_by_project: "ado_list_pull_requests_by_project",
-  list_branches_by_repo: "ado_list_branches_by_repo",
-  list_my_branches_by_repo: "ado_list_my_branches_by_repo",
-  list_pull_request_threads: "ado_list_pull_request_threads",
-  list_pull_request_thread_comments: "ado_list_pull_request_thread_comments",
-  get_repo_by_name_or_id: "ado_get_repo_by_name_or_id",
-  get_branch_by_name: "ado_get_branch_by_name",
-  get_pull_request_by_id: "ado_get_pull_request_by_id",
-  create_pull_request: "ado_create_pull_request",  
-  update_pull_request_status: "ado_update_pull_request_status",
-  reply_to_comment: "ado_reply_to_comment",
-  resolve_comment: "ado_resolve_comment",
+  list_repos_by_project: "repo_list_repos_by_project",
+  list_pull_requests_by_repo: "repo_list_pull_requests_by_repo",
+  list_pull_requests_by_project: "repo_list_pull_requests_by_project",
+  list_branches_by_repo: "repo_list_branches_by_repo",
+  list_my_branches_by_repo: "repo_list_my_branches_by_repo",
+  list_pull_request_threads: "repo_list_pull_request_threads",
+  list_pull_request_thread_comments: "repo_list_pull_request_thread_comments",
+  get_repo_by_name_or_id: "repo_get_repo_by_name_or_id",
+  get_branch_by_name: "repo_get_branch_by_name",
+  get_pull_request_by_id: "repo_get_pull_request_by_id",
+  create_pull_request: "repo_create_pull_request",  
+  update_pull_request_status: "repo_update_pull_request_status",
+  reply_to_comment: "repo_reply_to_comment",
+  resolve_comment: "repo_resolve_comment",
 };
 
 function branchesFilterOutIrrelevantProperties(

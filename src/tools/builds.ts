@@ -8,14 +8,14 @@ import { BuildQueryOrder, DefinitionQueryOrder } from "azure-devops-node-api/int
 import { z } from "zod";
 
 const BUILD_TOOLS = {
-  get_build_definitions: "ado_get_build_definitions",
-  get_build_definition_revisions: "ado_get_build_definition_revisions",
-  get_builds: "ado_get_builds",
-  get_build_log: "ado_get_build_log",
-  get_build_log_by_id: "ado_get_build_log_by_id",
-  get_build_changes: "ado_get_build_changes",
-  run_build: "ado_run_build",
-  get_build_status: "ado_get_build_status"
+  get_definitions: "build_get_definitions",
+  get_definition_revisions: "build_get_definition_revisions",
+  get_builds: "build_get_builds",
+  get_log: "build_get_log",
+  get_log_by_id: "build_get_log_by_id",
+  get_changes: "build_get_changes",
+  run_build: "build_run_build",
+  get_status: "build_get_status"
 };
 
 function configureBuildTools(
@@ -25,7 +25,7 @@ function configureBuildTools(
 ) {
   
   server.tool(
-    BUILD_TOOLS.get_build_definitions,
+    BUILD_TOOLS.get_definitions,
     "Retrieves a list of build definitions for a given project.",
     {
       project: z.string().describe("Project ID or name to get build definitions for"),
@@ -94,7 +94,7 @@ function configureBuildTools(
   );
   
   server.tool(
-    BUILD_TOOLS.get_build_definition_revisions,
+    BUILD_TOOLS.get_definition_revisions,
     "Retrieves a list of revisions for a specific build definition.",
     {
       project: z.string().describe("Project ID or name to get the build definition revisions for"),
@@ -193,7 +193,7 @@ function configureBuildTools(
   );
   
   server.tool(
-    BUILD_TOOLS.get_build_log,
+    BUILD_TOOLS.get_log,
     "Retrieves the logs for a specific build.",
     {
       project: z.string().describe("Project ID or name to get the build log for"),
@@ -211,7 +211,7 @@ function configureBuildTools(
   );
   
   server.tool(
-    BUILD_TOOLS.get_build_log_by_id,
+    BUILD_TOOLS.get_log_by_id,
     "Get a specific build log by log ID.",
     {
       project: z.string().describe("Project ID or name to get the build log for"),  
@@ -238,7 +238,7 @@ function configureBuildTools(
   );
   
   server.tool(
-    BUILD_TOOLS.get_build_changes,
+    BUILD_TOOLS.get_changes,
     "Get the changes associated with a specific build.",
     {
       project: z.string().describe("Project ID or name to get the build changes for"),
@@ -284,7 +284,7 @@ function configureBuildTools(
   );
 
   server.tool(
-    BUILD_TOOLS.get_build_status,
+    BUILD_TOOLS.get_status,
     "Fetches the status of a specific build.",
     {
       project: z.string().describe("Project ID or name to get the build status for"),

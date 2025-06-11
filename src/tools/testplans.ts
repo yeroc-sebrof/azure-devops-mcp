@@ -8,12 +8,12 @@ import { TestPlanCreateParams } from "azure-devops-node-api/interfaces/TestPlanI
 import { z } from "zod";
 
 const Test_Plan_Tools = {
-  create_test_plan: "ado_create_test_plan",
-  create_test_case: "ado_create_test_case",
-  add_test_cases_to_suite: "ado_add_test_cases_to_suite",
-  test_results_from_build_id: "ado_show_test_results_from_build_id",
-  list_test_cases: "ado_list_test_cases",
-  list_test_plans: "ado_list_test_plans"
+  create_test_plan: "testplan_create_test_plan",
+  create_test_case: "testplan_create_test_case",
+  add_test_cases_to_suite: "testplan_add_test_cases_to_suite",
+  test_results_from_build_id: "testplan_show_test_results_from_build_id",
+  list_test_cases: "testplan_list_test_cases",
+  list_test_plans: "testplan_list_test_plans"
 };
 
 function configureTestPlanTools(

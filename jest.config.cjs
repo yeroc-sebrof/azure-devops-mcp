@@ -32,7 +32,7 @@ module.exports = {
   },
 
   moduleNameMapper: {
-    '^@utils$': '<rootDir>/src/utils.ts',
-    '^(.+)/version\\.js$': '$1/version.ts'
+    '^(.+)/version\\.js$': '$1/version.ts',
+    '^(.+)/utils\\.js$': '$1/utils.ts'
   }
 };

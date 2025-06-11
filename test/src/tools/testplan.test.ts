@@ -44,11 +44,11 @@ describe("configureTestPlanTools", () => {
       configureTestPlanTools(server, tokenProvider, connectionProvider);
       expect((server.tool as jest.Mock).mock.calls.map(call => call[0])).toEqual(
         expect.arrayContaining([
-          "ado_list_test_plans",
-          "ado_create_test_plan",
-          "ado_add_test_cases_to_suite",
-          "ado_list_test_cases",
-          "ado_show_test_results_from_build_id",
+          "testplan_list_test_plans",
+          "testplan_create_test_plan",
+          "testplan_add_test_cases_to_suite",
+          "testplan_list_test_cases",
+          "testplan_show_test_results_from_build_id",
         ])
       );
     });
@@ -58,9 +58,9 @@ describe("configureTestPlanTools", () => {
     it("should call getTestPlans with the correct parameters and return the expected result", async () => {
       configureTestPlanTools(server, tokenProvider, connectionProvider);
       const call = (server.tool as jest.Mock).mock.calls.find(
-        ([toolName]) => toolName === "ado_list_test_plans"
+        ([toolName]) => toolName === "testplan_list_test_plans"
       );
-      if (!call) throw new Error("ado_list_test_plans tool not registered");
+      if (!call) throw new Error("testplan_list_test_plans tool not registered");
       const [, , , handler] = call;
 
       (mockTestPlanApi.getTestPlans as jest.Mock).mockResolvedValue([{ id: 1, name: "Test Plan 1" }]);
@@ -87,9 +87,9 @@ describe("configureTestPlanTools", () => {
     it("should call createTestPlan with the correct parameters and return the expected result", async () => {
       configureTestPlanTools(server, tokenProvider, connectionProvider);
       const call = (server.tool as jest.Mock).mock.calls.find(
-        ([toolName]) => toolName === "ado_create_test_plan"
+        ([toolName]) => toolName === "testplan_create_test_plan"
       );
-      if (!call) throw new Error("ado_create_test_plan tool not registered");
+      if (!call) throw new Error("testplan_create_test_plan tool not registered");
       const [, , , handler] = call;
 
       (mockTestPlanApi.createTestPlan as jest.Mock).mockResolvedValue({ id: 1, name: "New Test Plan" });
@@ -123,9 +123,9 @@ describe("configureTestPlanTools", () => {
     it("should call getTestCaseList with the correct parameters and return the expected result", async () => {
       configureTestPlanTools(server, tokenProvider, connectionProvider);
       const call = (server.tool as jest.Mock).mock.calls.find(
-        ([toolName]) => toolName === "ado_list_test_cases"
+        ([toolName]) => toolName === "testplan_list_test_cases"
       );
-      if (!call) throw new Error("ado_list_test_cases tool not registered");
+      if (!call) throw new Error("testplan_list_test_cases tool not registered");
       const [, , , handler] = call;
 
       (mockTestPlanApi.getTestCaseList as jest.Mock).mockResolvedValue([{ id: 1, name: "Test Case 1" }]);
@@ -149,9 +149,9 @@ describe("configureTestPlanTools", () => {
     it("should call getTestResultDetailsForBuild with the correct parameters and return the expected result", async () => {
       configureTestPlanTools(server, tokenProvider, connectionProvider);
       const call = (server.tool as jest.Mock).mock.calls.find(
-        ([toolName]) => toolName === "ado_show_test_results_from_build_id"
+        ([toolName]) => toolName === "testplan_show_test_results_from_build_id"
       );
-      if (!call) throw new Error("ado_show_test_results_from_build_id tool not registered");
+      if (!call) throw new Error("testplan_show_test_results_from_build_id tool not registered");
       const [, , , handler] = call;
 
       (mockTestResultsApi.getTestResultDetailsForBuild as jest.Mock).mockResolvedValue({ results: ["Result 1"] });

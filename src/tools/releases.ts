@@ -14,8 +14,8 @@ import {
 import { z } from "zod";
 
 const RELEASE_TOOLS = {
-  get_release_definitions: "ado_get_release_definitions",
-  get_releases: "ado_get_releases",
+  get_release_definitions: "release_get_definitions",
+  get_releases: "release_get_releases",
 };
 
 function configureReleaseTools(

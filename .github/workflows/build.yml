@@ -38,6 +38,18 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Validate server startup via npx
+        shell: pwsh
+        run: |
+          $result = & npx mcp-server-azuredevops 2>&1
+          if ($result -notmatch "Usage: mcp-server-azuredevops <organization_name>") {
+            Write-Host "Expected usage message not found in output:"
+            Write-Host $result
+            exit 1
+          }
+          Write-Host "Validation passed."
+          exit 0
+
   static-code-analysis:
     name: Static code analysis
     runs-on: windows-latest
@@ -69,4 +81,3 @@ jobs:
             Write-Host "Please run 'npm install' to update package-lock.json and add changes to the commit."
             exit 1
           }
-

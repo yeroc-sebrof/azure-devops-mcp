@@ -42,27 +42,45 @@ describe("configureWikiTools", () => {
     });
   });
 
-  describe("get_wiki_page tool", () => {
+  describe("get_page_content tool", () => {
     it("should call getPageText with the correct parameters and return the expected result", async () => {
       configureWikiTools(server, tokenProvider, connectionProvider);
       const call = (server.tool as jest.Mock).mock.calls.find(
-        ([toolName]) => toolName === "ado_get_wiki_page"
+        ([toolName]) => toolName === "wiki_get_page_content"
       );
-      if (!call) throw new Error("ado_get_wiki_page tool not registered");
+      if (!call) throw new Error("wiki_get_page_content tool not registered");
       const [, , , handler] = call;
 
-      mockWikiApi.getPageText.mockResolvedValue("mock page text");
+      // Mock a stream-like object for getPageText
+      const mockStream = {
+        setEncoding: jest.fn(),
+        on: function (event: string, cb: (chunk?: unknown) => void) {
+          if (event === "data") {
+            setImmediate(() => cb("mock page text"));
+          }
+          if (event === "end") {
+            setImmediate(() => cb());
+          }
+          return this;
+        }
+      };
+      mockWikiApi.getPageText.mockResolvedValue(mockStream as unknown);
+
       const params = {
         wikiIdentifier: "wiki1",
         project: "proj1",
         path: "/page1"
       };
+      
       const result = await handler(params);
 
       expect(mockWikiApi.getPageText).toHaveBeenCalledWith(
         "proj1",
         "wiki1",
-        "/page1"
+        "/page1", 
+        undefined, 
+        undefined, 
+        true
       );
       expect(result.content[0].text).toBe("\"mock page text\"");
     });
@@ -72,9 +90,9 @@ describe("configureWikiTools", () => {
     it("should call getPagesBatch with the correct parameters and return the expected result", async () => {
       configureWikiTools(server, tokenProvider, connectionProvider);
       const call = (server.tool as jest.Mock).mock.calls.find(
-        ([toolName]) => toolName === "ado_list_wiki_pages"
+        ([toolName]) => toolName === "wiki_list_pages"
       );
-      if (!call) throw new Error("ado_list_wiki_pages tool not registered");
+      if (!call) throw new Error("wiki_list_pages tool not registered");
       const [, , , handler] = call;
       mockWikiApi.getPagesBatch.mockResolvedValue({ value: ["page1", "page2"] });
 
