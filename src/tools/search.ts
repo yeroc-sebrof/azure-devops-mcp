@@ -12,9 +12,9 @@ import { VersionControlRecursionType } from "azure-devops-node-api/interfaces/Gi
 import { GitItem } from "azure-devops-node-api/interfaces/GitInterfaces.js";
 
 const SEARCH_TOOLS = {
-  code_search: "ado_code_search",
-  wiki_search: "ado_wiki_search",
-  workitem_search: "ado_workitem_search"
+  search_code: "search_code",
+  search_wiki: "search_wiki",
+  search_workitem: "search_workitem"
 };
 
 function configureSearchTools(
@@ -27,7 +27,7 @@ function configureSearchTools(
     Get the code search results for a given search text.
   */
 server.tool(
-  SEARCH_TOOLS.code_search,
+  SEARCH_TOOLS.search_code,
   "Get the code search results for a given search text.",
   {
     searchRequest: z.object({
@@ -91,7 +91,7 @@ server.tool(
   Get wiki search results for a given search text.
 */
 server.tool(
-  SEARCH_TOOLS.wiki_search,
+  SEARCH_TOOLS.search_wiki,
   "Get wiki search results for a given search text.",
   {
     searchRequest: z.object({
@@ -137,7 +137,7 @@ server.tool(
   Get work item search results for a given search text.
 */
 server.tool(
-  SEARCH_TOOLS.workitem_search,
+  SEARCH_TOOLS.search_workitem,
   "Get work item search results for a given search text.",
   {
     searchRequest: z.object({

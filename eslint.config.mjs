@@ -8,6 +8,7 @@ export default tseslint.config(
   {
     ignores: [
       "dist/**",
+      "coverage/**",
       "src/version.ts"
     ]
   },
@@ -22,7 +23,7 @@ export default tseslint.config(
       "src/**/*.ts"
     ],
     ignores: [
-      "src/index.ts"
+      "src/index.ts",
     ],
     plugins: {
       header: pluginHeader

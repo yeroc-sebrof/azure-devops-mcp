@@ -7,27 +7,53 @@ import { WebApi } from "azure-devops-node-api";
 import { WorkItemExpand } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces.js";
 import { QueryExpand } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces.js";
 import { z } from "zod";
-import { batchApiVersion, userAgent } from "@utils";
+import { batchApiVersion, userAgent } from "../utils.js";
 
 const WORKITEM_TOOLS = {
-  my_work_items: "ado_my_work_items",
-  list_backlogs: "ado_list_backlogs",    
-  list_backlog_work_items: "ado_list_backlog_work_items",   
-  get_work_item: "ado_get_work_item",
-  get_work_items_batch_by_ids: "ado_get_work_items_batch_by_ids",
-  update_work_item: "ado_update_work_item",
-  create_work_item: "ado_create_work_item",
-  list_work_item_comments: "ado_list_work_item_comments",
-  get_work_items_for_iteration: "ado_get_work_items_for_iteration",
-  add_work_item_comment: "ado_add_work_item_comment",
-  add_child_work_item: "ado_add_child_work_item",
-  link_work_item_to_pull_request: "ado_link_work_item_to_pull_request",
-  get_work_item_type: "ado_get_work_item_type",
-  get_query: "ado_get_query", 
-  get_query_results_by_id: "ado_get_query_results_by_id",
-  update_work_items_batch: "ado_update_work_items_batch",
-  close_and_link_workitem_duplicates: "ado_close_and_link_workitem_duplicates"
+  my_work_items: "wit_my_work_items",
+  list_backlogs: "wit_list_backlogs",    
+  list_backlog_work_items: "wit_list_backlog_work_items",   
+  get_work_item: "wit_get_work_item",
+  get_work_items_batch_by_ids: "wit_get_work_items_batch_by_ids",
+  update_work_item: "wit_update_work_item",
+  create_work_item: "wit_create_work_item",
+  list_work_item_comments: "wit_list_work_item_comments",
+  get_work_items_for_iteration: "wit_get_work_items_for_iteration",
+  add_work_item_comment: "wit_add_work_item_comment",
+  add_child_work_item: "wit_add_child_work_item",
+  link_work_item_to_pull_request: "wit_link_work_item_to_pull_request",
+  get_work_item_type: "wit_get_work_item_type",
+  get_query: "wit_get_query", 
+  get_query_results_by_id: "wit_get_query_results_by_id",
+  update_work_items_batch: "wit_update_work_items_batch",
+  close_and_link_workitem_duplicates: "wit_close_and_link_workitem_duplicates",
+  work_items_link: "wit_work_items_link"
 };
+
+function getLinkTypeFromName(name: string) {
+  switch (name.toLowerCase()) {
+    case "parent":
+      return "System.LinkTypes.Hierarchy-Reverse";
+    case "child":
+      return "System.LinkTypes.Hierarchy-Forward";
+    case "duplicate":
+      return "System.LinkTypes.Duplicate-Forward";
+    case "duplicate of":
+      return "System.LinkTypes.Duplicate-Reverse";
+    case "related":
+      return "System.LinkTypes.Related";
+    case "successor":
+      return "System.LinkTypes.Dependency-Forward";
+    case "predecessor":
+      return "System.LinkTypes.Dependency-Reverse";
+    case "tested by":
+      return "Microsoft.VSTS.Common.TestedBy-Forward";
+    case "tests":
+      return "Microsoft.VSTS.Common.TestedBy-Reverse";
+    default:
+      throw new Error(`Unknown link type: ${name}`);
+  }
+}
 
 function configureWorkItemTools(
   server: McpServer,
@@ -82,17 +108,17 @@ function configureWorkItemTools(
     WORKITEM_TOOLS.my_work_items,
     "Retrieve a list of work items relevent to the authenticated user.",
     {
-      projectId: z.string(),
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
       type: z.enum(["assignedtome", "myactivity"]).default("assignedtome").describe("The type of work items to retrieve. Defaults to 'assignedtome'."),
       top: z.number().default(50).describe("The maximum number of work items to return. Defaults to 50."),
       includeCompleted: z.boolean().default(false).describe("Whether to include completed work items. Defaults to false."),
     },
-    async ({ projectId, type, top, includeCompleted }) => {
+    async ({ project, type, top, includeCompleted }) => {
       const connection = await connectionProvider();
       const workApi = await connection.getWorkApi();
 
       const workItems = await workApi.getPredefinedQueryResults(
-        projectId,
+        project,
         type,
         top,
         includeCompleted
@@ -109,12 +135,13 @@ function configureWorkItemTools(
     "Retrieve list of work items by IDs in batch.",
     { 
       project: z.string().describe("The name or ID of the Azure DevOps project."), 
-      ids: z.array(z.number()).describe("The IDs of the work items to retrieve.")  
+      ids: z.array(z.number()).describe("The IDs of the work items to retrieve.")
     },
     async ({ project, ids }) => {
       const connection = await connectionProvider();
       const workItemApi = await connection.getWorkItemTrackingApi();
-      const workitems = await workItemApi.getWorkItemsBatch({ ids }, project);
+      const fields = ["System.Id", "System.WorkItemType", "System.Title", "System.State", "System.Parent", "System.Tags"];
+      const workitems = await workItemApi.getWorkItemsBatch({ids, fields}, project);
 
       return {
         content: [{ type: "text", text: JSON.stringify(workitems, null, 2) }],
@@ -138,7 +165,7 @@ function configureWorkItemTools(
     async ({ id, project, fields, asOf, expand }) => {
       const connection = await connectionProvider();
       const workItemApi = await connection.getWorkItemTrackingApi();
-      const workitems = await workItemApi.getWorkItem(
+      const workItem = await workItemApi.getWorkItem(
         id,
         fields,
         asOf,
@@ -146,7 +173,7 @@ function configureWorkItemTools(
         project
       );
       return {
-        content: [{ type: "text", text: JSON.stringify(workitems, null, 2) }],
+        content: [{ type: "text", text: JSON.stringify(workItem, null, 2) }],
       };
     }
   );
@@ -413,7 +440,7 @@ function configureWorkItemTools(
   );
  
   server.tool(
-    "ado_get_work_item_type",
+    WORKITEM_TOOLS.get_work_item_type,
     "Get a specific work item type.",
     {
       project: z.string().describe("The name or ID of the Azure DevOps project."),
@@ -564,6 +591,74 @@ function configureWorkItemTools(
             op: op,
             path: path,
             value: value,
+          })),
+      }));     
+
+      const response = await fetch(
+        `${orgUrl}/_apis/wit/$batch?api-version=${batchApiVersion}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${accessToken.token}`,
+            "Content-Type": "application/json",
+            "User-Agent": `${userAgent}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to update work items in batch: ${response.statusText}`
+        );
+      }
+
+      const result = await response.json();
+
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
+    }
+  );
+
+  server.tool(
+    WORKITEM_TOOLS.work_items_link,
+    "Link work items together in batch.",
+    {
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      updates: z.array(
+        z.object({
+          id: z.number().describe("The ID of the work item to update."),
+          linkToId: z.number().describe("The ID of the work item to link to."),
+          type: z.enum(["parent", "child", "duplicate", "duplicate of", "related", "successor", "predecessor", "tested by", "tests"]).default("related").describe("Type of link to create between the work items. Options include 'parent', 'child', 'duplicate', 'duplicate of', 'related', 'successor', 'predecessor', 'tested by', 'tests', 'referenced by', and 'references'. Defaults to 'related'."),             
+          comment: z.string().optional().describe("Optional comment to include with the link. This can be used to provide additional context for the link being created."),
+        })
+      ).describe(""),
+    },
+    async ({ project, updates }) => {
+      const connection = await connectionProvider();
+      const orgUrl = connection.serverUrl;
+      const accessToken = await tokenProvider();
+
+      // Extract unique IDs from the updates array
+      const uniqueIds = Array.from(new Set(updates.map((update) => update.id)));
+
+      const body = uniqueIds.map((id) => ({
+        method: "PATCH",
+        uri: `/_apis/wit/workitems/${id}?api-version=${batchApiVersion}`,
+        headers: {
+          "Content-Type": "application/json-patch+json",
+        },
+        body: updates.filter((update) => update.id === id).map(({ linkToId, type, comment }) => ({
+            op: "add",
+            path: "/relations/-",
+            value: {
+              rel: `${getLinkTypeFromName(type)}`,
+              url: `${orgUrl}/${project}/_apis/wit/workItems/${linkToId}`,
+              attributes: {
+                comment: comment || "",
+              },
+            }
           })),
       }));     
 
