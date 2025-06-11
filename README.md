@@ -7,7 +7,7 @@ Easily install the Azure DevOps MCP Server for VS Code or VS Code Insiders:
 
 This TypeScript project defines the **local** MCP server for Azure DevOps, enabling you to perform a wide range of Azure DevOps tasks directly from your code editor.
 
-> 🚨 **Public Preview:** This project is in public preview. Features and APIs may change before General Availability.
+> 🚨 **Public Preview:** This project is in public preview. You can expect that the tools will change before general availability.
 
 ## 📄 Table of contents
 
@@ -37,89 +37,85 @@ The Azure DevOps MCP Server brings Azure DevOps context to your agents. Try prom
 
 Interact with these Azure DevOps services:
 
-### ⚒️ Core
+### 🧿 Core
 
-- **ado_list_project_teams**: List teams for a project.
-- **ado_list_projects**: List organization projects.
-- **ado_list_team_iterations**: List iterations for a team.
-- **ado_create_iterations**: Create project iterations.
-- **ado_assign_iterations**: Assign iterations to a team.
+- **core_list_project_teams**: Retrieve a list of teams for the specified Azure DevOps project.
+- **core_list_projects**: Retrieve a list of projects in your Azure DevOps organization.
+
+### ⚒️ Work
+
+- **work_list_team_iterations**: Retrieve a list of iterations for a specific team in a project.
+- **work_create_iterations**: Create new iterations in a specified Azure DevOps project.
+- **work_assign_iterations**: Assign existing iterations to a specific team in a project.
 
 ### 📅 Work Items
 
-- **ado_my_work_items**: List work items assigned to you.
-- **ado_list_backlogs**: List backlogs for a project and team.
-- **ado_list_backlog_work_items**: List work items for a team and backlog category.
-- **ado_get_work_item**: Get a work item by ID.
-- **ado_get_work_items_batch_by_ids**: Batch get work items by IDs.
-- **ado_update_work_item**: Update a work item by ID.
-- **ado_create_work_item**: Create a new work item.
-- **ado_list_work_item_comments**: List comments for a work item.
-- **ado_get_work_items_for_current_iteration**: List work items for the current iteration.
-- **ado_get_work_items_for_iteration**: List work items for a specific iteration.
-- **ado_add_work_item_comment**: Add a comment to a work item.
-- **ado_add_child_work_item**: Create a child work item.
-- **ado_update_work_item_assign**: Assign a work item.
-- **ado_link_work_item_to_pull_request**: Link a work item to a pull request.
-- **ado_get_work_item_type**: Get info about a work item type.
-- **ado_get_query**: Get query details by ID or path.
-- **ado_get_query_results_by_id**: Get query results by ID.
-- **ado_update_work_items_batch**: Batch update work items.
-- **ado_close_and_link_workitem_duplicates**: Close duplicate work items.
+- **wit_my_work_items**: Retrieve a list of work items relevent to the authenticated user.
+- **wit_list_backlogs**: Revieve a list of backlogs for a given project and team.
+- **wit_list_backlog_work_items**: Retrieve a list of backlogs of for a given project, team, and backlog category.
+- **wit_get_work_item**: Get a single work item by ID.
+- **wit_get_work_items_batch_by_ids**: Retrieve list of work items by IDs in batch.
+- **wit_update_work_item**: Update a work item by ID with specified fields.
+- **wit_create_work_item**: Create a new work item in a specified project and work item type.
+- **wit_list_work_item_comments**: Retrieve list of comments for a work item by ID.
+- **wit_get_work_items_for_iteration**: Retrieve a list of work items for a specified iteration.
+- **wit_add_work_item_comment**: Add comment to a work item by ID.
+- **wit_add_child_work_item**: Create a child work item from a parent by ID.
+- **wit_link_work_item_to_pull_request**: Link a single work item to an existing pull request.
+- **wit_get_work_item_type**: Get a specific work item type.
+- **wit_get_query**: Get a query by its ID or path.
+- **wit_get_query_results_by_id**: Retrieve the results of a work item query given the query ID.
+- **wit_update_work_items_batch**: Update work items in batch.
+- **wit_close_and_link_workitem_duplicates**: Close duplicate work items by id.
+- **wit_work_items_link**: Link work items together in batch.
 
 ### 📁 Repositories
 
-- **ado_list_repos_by_project**: List repositories for a project.
-- **ado_list_pull_requests_by_repo**: List pull requests for a repository.
-- **ado_list_pull_requests_by_project**: List pull requests for a project.
-- **ado_list_branches_by_repo**: List branches for given repository.
-- **ado_list_my_branches_by_repo**: List of my branches for a given repository.
-- **ado_list_pull_request_threads**: List of comment threads for pull request.
-- **ado_list_pull_request_thread_comments**: List of comments in a pull request thread.
-- **ado_get_repo_by_id**: Get a repository by its id.
-- **ado_get_repo_by_name**: Get a repository by its name.
-- **ado_get_branch_by_name**: Get a branch by its name.
-- **ado_get_pull_request_by_id**: Get a pull request by its id.
-- **ado_create_pull_request**: Create a pull request.
-- **ado_publish_pull_request**: Publish a pull request.
-- **ado_abandon_pull_request**: Abandon a pull request.
-- **ado_reply_to_comment**: Reply to a pull request comment.
-- **ado_resolve_comment**: Resolve a pull request comment thread.
+- **repo_list_repos_by_project**: Retrieve a list of repositories for a given project.
+- **repo_list_pull_requests_by_repo**: Retrieve a list of pull requests for a given repository.
+- **repo_list_pull_requests_by_project**: Retrieve a list of pull requests for a given project Id or Name.
+- **repo_list_branches_by_repo**: Retrieve a list of branches for a given repository.
+- **repo_list_my_branches_by_repo**: Retrieve a list of my branches for a given repository Id.
+- **repo_list_pull_request_threads**: Retrieve a list of comment threads for a pull request.
+- **repo_list_pull_request_thread_comments**: Retrieve a list of comments in a pull request thread.
+- **repo_get_repo_by_name_or_id**: Get the repository by project and repository name or ID.
+- **repo_get_branch_by_name**: Get a branch by its name.
+- **repo_get_pull_request_by_id**: Get a pull request by its ID.
+- **repo_create_pull_request**: Create a new pull request.
+- **repo_update_pull_request_status**: Update status of an existing pull request to active or abandoned.
+- **repo_reply_to_comment**: Replies to a specific comment on a pull request.
+- **repo_resolve_comment**: Resolves a specific comment thread on a pull request.
 
 ### 🛰️ Builds
 
-- **ado_get_build_definitions**: List build definitions for a project.
-- **ado_get_build_definition_revisions**: List build definition revisions.
-- **ado_get_builds**: List builds for a project.
-- **ado_get_build_log**: Get build logs.
-- **ado_get_build_log_by_id**: Get a build log by ID.
-- **ado_get_build_changes**: Get build changes.
-- **ado_run_build**: Trigger a build.
-- **ado_get_build_status**: Get build status.
+- **build_get_definitions**: Retrieves a list of build definitions for a given project.
+- **build_get_definition_revisions**: Retrieves a list of revisions for a specific build definition.
+- **build_get_builds**: Retrieves a list of builds for a given project.
+- **build_get_log**: Retrieves the logs for a specific build.
+- **build_get_log_by_id**: Get a specific build log by log ID.
+- **build_get_changes**: Get the changes associated with a specific build.
+- **build_run_build**: Triggers a new build for a specified definition.
+- **build_get_status**: Fetches the status of a specific build.
 
 ### 🚀 Releases
 
-- **ado_get_release_definitions**: List release definitions.
-- **ado_get_releases**: List releases for a project.
+- **release_get_definitions**: Retrieves list of release definitions for a given project.
+- **release_get_releases**: Retrieves a list of releases for a given project.
 
 ### 🧪 Test Plans
 
-- **ado_create_test_plan**: Create a test plan.
-- **ado_create_test_case**: Create a test case.
-- **ado_add_test_cases_to_suite**: Add test cases to a suite.
-- **ado_show_test_results_from_build_id**: List test results for a build.
-- **ado_list_test_cases**: List test cases in a test plan.
-- **ado_list_test_plans**: List test plans by project.
-
-### 📄 Wiki
-
-*Coming soon*
+- **testplan_create_test_plan**: Creates a new test plan in the project.
+- **testplan_create_test_case**: Creates a new test case work item.
+- **testplan_add_test_cases_to_suite**: Adds existing test cases to a test suite.
+- **testplan_list_test_plans**: Retrieve a paginated list of test plans from an Azure DevOps project. Allows filtering for active plans and toggling detailed information.
+- **testplan_list_test_cases**: Gets a list of test cases in the test plan.
+- **testplan_show_test_results_from_build_id**: Gets a list of test results for a given project and build ID.
 
 ### 🔎 Search
 
-- **ado_code_search**: Search code.
-- **ado_wiki_search**: Search wikis.
-- **ado_workitem_search**: Search work items.
+- **search_code**: Get the code search results for a given search text.
+- **search_wiki**: Get wiki search results for a given search text.
+- **search_workitem**: Get work item search results for a given search text.
 
 ## 🔌 Installation & getting started
 

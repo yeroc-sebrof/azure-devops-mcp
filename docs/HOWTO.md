@@ -63,7 +63,7 @@ In chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/i
 
 ### Enable or disable tools
 
-Click "Select Tools" and choose the available `ado_` tools.
+Click "Select Tools" and choose the available tools.
 
 <img src="./media/configure-mcp-server-tools.gif" alt="configure mcp server tools" width="300"/>
 
@@ -85,7 +85,7 @@ This command returns all Azure DevOps projects for the organization defined in t
 get list of teams for project contoso
 ```
 
-[![MPC Server for Azure DevOps: Get list of projects and teams](https://i9.ytimg.com/vi_webp/x579E4_jNtY/mqdefault.webp?sqp=CKjRi8IG&rs=AOn4CLCoy-3jlT_XHBNvCyQG7zFrEdwRxw)](https://youtu.be/x579E4_jNtY "MPC Server for Azure DevOps: Get list of projects and teams")
+📽️ [MPC Server for Azure DevOps: Get list of projects and teams](https://youtu.be/x579E4_jNtY)
 
 
 ### Get my work items
@@ -96,9 +96,9 @@ Retrieve a list of work items assigned to you. This tool requires project contex
 get my work items for project contoso
 ```
 
-The model should automatically use the `ado_get_work_items_batch_by_ids` tool to fetch work item details.
+The model should automatically use the `wit_get_work_items_batch_by_ids` tool to fetch work item details.
 
-[![MPC Server for Azure DevOps: Get my work items](https://i9.ytimg.com/vi_webp/y_ri8n7mBlg/mqdefault.webp?sqp=CKjRi8IG&rs=AOn4CLBiYBecaLow3qUw7AsRwNmbe-Bgig)](https://youtu.be/y_ri8n7mBlg "MPC Server for Azure DevOps: Get my work items")
+📽️ [MPC Server for Azure DevOps: Get my work items](https://youtu.be/y_ri8n7mBlg)
 
 ### Get all work items in a backlog
 
@@ -114,9 +114,9 @@ Once you have the backlog levels, you can then get work items for that backlog.
 get list of work items for Features backlog
 ```
 
-The model should automatically use the `ado_get_work_items_batch_by_ids` tool to fetch work item details.
+The model should automatically use the `wit_get_work_items_batch_by_ids` tool to fetch work item details.
 
-[![MPC Server for Azure DevOps: Get backlog](https://i9.ytimg.com/vi/LouuyoscNrI/mqdefault.jpg?sqp=CKjRi8IG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFsgWyhbMA8=&rs=AOn4CLBZHRzzFXZtIMG8RQzNU7exGui8kg)](https://youtu.be/LouuyoscNrI "MPC Server for Azure DevOps: Get backlog")
+📽️ [MPC Server for Azure DevOps: Get backlog](https://youtu.be/LouuyoscNrI)
 
 ### Retrieve and edit work items
 
@@ -138,4 +138,4 @@ Assign the work item to me and add a new comment.
 Assign this work item to myemail@outlook.com and add a comment "I will own this Bug and get it fixed"
 ```
 
-[![MPC Server for Azure DevOps: Work with Work Items](https://i9.ytimg.com/vi/tT7wqSIPKdA/mqdefault.jpg?sqp=CNiljMIG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGCogVChyMA8=&rs=AOn4CLDiAUFB07UFK5kAYTGFtH-gAzhqhQ)](https://youtu.be/tT7wqSIPKdA "MPC Server for Azure DevOps: Work with Work Items")
+📽️ [MPC Server for Azure DevOps: Work with Work Items](https://youtu.be/tT7wqSIPKdA)
