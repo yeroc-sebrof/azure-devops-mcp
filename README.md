@@ -148,6 +148,44 @@ az login
 
 After installation, select GitHub Copilot Agent Mode and refresh the tools list. Learn more about Agent Mode in the [VS Code Documentation](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode).
 
+#### 🧨 Installing from public feed (recommended)
+
+This installation method is the easiest for all users using Visual Studio Code.
+
+##### Steps
+
+1. In your project, add a `.vscode\mcp.json` file and add the following:
+
+   ``` json
+   {
+      "inputs": [
+        {
+            "id": "ado_org",
+            "type": "promptString",
+            "description": "Azure DevOps organization name  (e.g. 'contoso')"
+        }
+      ],
+      "servers": {
+        "ado": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@azure-devops/mcp",
+                "${input:ado_org}"
+            ]
+         }
+      }
+   }
+   ```
+2. Save the file and click 'Start`
+
+   <img src="./docs/media/start-mcp-server.gif" alt="start mcp server" width="250"/>
+
+3. In chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode).
+4. Click "Select Tools" and choose the available tools.
+5. We strongly recommend that you create a `.github\copilot-instructions.md` in your project and copy and paste the contents from this [copilot-instructions.md](./.github/copilot-instructions.md) file. This will help your experience when it comes to using the Azure DevOps MCP Server in GitHub Copilot Chat.
+
 #### 🛠️ Installing from source (dev mode)
 
 This installation method is recommended for advanced users and contributors who want immediate access to the latest updates from the main branch. It is ideal if you are developing new tools, enhancing existing features, or maintaining a custom fork.
@@ -182,15 +220,15 @@ This installation method is recommended for advanced users and contributors who 
    }
    ```
 
-4. Start the Azure DevOps MCP Server:
+4. Start the Azure DevOps MCP Server
+
+   <img src="./docs/media/start-mcp-server.gif" alt="start mcp server" width="250"/>
+  
 5. In chat, switch to [Agent Mode](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode).
-6. Click "Select Tools" and choose the available `ado_` tools.
+6. Click "Select Tools" and choose the available tools.
+7. We strongly recommend that you create a `.github\copilot-instructions.md` in your project and copy and paste the contents from this [copilot-instructions.md](./.github/copilot-instructions.md) file. This will help your experience when it comes to using the Azure DevOps MCP Server in GitHub Copilot Chat.
 
 See [How To](./docs/HOWTO.md) section for details
-
-#### 🧨 Installing from public feed
-
-Comming soon
 
 ## 🔦 Usage
 
