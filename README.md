@@ -188,9 +188,9 @@ This installation method is recommended for advanced users and contributors who 
 
 See [How To](./docs/HOWTO.md) section for details
 
-#### Placeholder for public feed
+#### 🧨 Installing from public feed
 
-Update for Public Feed
+Comming soon
 
 ## 🔦 Usage
 
