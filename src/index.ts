@@ -40,10 +40,9 @@ async function getAzureDevOpsClient() : Promise<azdev.WebApi> {
 }
 
 async function main() {
-  console.error("Starting Azure DevOps MCP Server...");
   const server = new McpServer({
     name: "Azure DevOps MCP Server",
-    version: "1.0.0",
+    version: packageVersion,
   });
 
   configurePrompts(server);
@@ -55,9 +54,8 @@ async function main() {
   );
 
   const transport = new StdioServerTransport();
-  console.error("Connecting server to transport...");
+  console.log("Azure DevOps MCP Server version : " + packageVersion);
   await server.connect(transport);
-  console.error("Azure DevOps MCP Server running on stdio");
 }
 
 main().catch((error) => {
