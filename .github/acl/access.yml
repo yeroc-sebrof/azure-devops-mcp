@@ -16,3 +16,5 @@ configuration:
     role: Write
   - member: KathanS
     role: Write
+  - member: vinayakmsft
+    role: Write
