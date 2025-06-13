@@ -54,7 +54,7 @@ async function main() {
   );
 
   const transport = new StdioServerTransport();
-  console.log("Azure DevOps MCP Server version : " + server.version);
+  console.log("Azure DevOps MCP Server version : " + packageVersion);
   await server.connect(transport);
 }
 
