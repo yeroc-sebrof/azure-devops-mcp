@@ -42,7 +42,7 @@ async function getAzureDevOpsClient() : Promise<azdev.WebApi> {
 async function main() {
   const server = new McpServer({
     name: "Azure DevOps MCP Server",
-    version: "0.1.0",
+    version: packageVersion,
   });
 
   configurePrompts(server);
