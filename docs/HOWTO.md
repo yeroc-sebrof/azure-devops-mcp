@@ -85,7 +85,7 @@ This command returns all Azure DevOps projects for the organization defined in t
 get list of teams for project contoso
 ```
 
-📽️ [MPC Server for Azure DevOps: Get list of projects and teams](https://youtu.be/x579E4_jNtY)
+📽️ [Azure DevOps MPC Server: Get list of projects and teams](https://youtu.be/x579E4_jNtY)
 
 
 ### Get my work items
@@ -98,7 +98,7 @@ get my work items for project contoso
 
 The model should automatically use the `wit_get_work_items_batch_by_ids` tool to fetch work item details.
 
-📽️ [MPC Server for Azure DevOps: Get my work items](https://youtu.be/y_ri8n7mBlg)
+📽️ [Azure DevOps MPC Server: Get my work items](https://youtu.be/y_ri8n7mBlg)
 
 ### Get all work items in a backlog
 
@@ -116,7 +116,7 @@ get list of work items for Features backlog
 
 The model should automatically use the `wit_get_work_items_batch_by_ids` tool to fetch work item details.
 
-📽️ [MPC Server for Azure DevOps: Get backlog](https://youtu.be/LouuyoscNrI)
+📽️ [Azure DevOps MPC Server: Get backlog](https://youtu.be/LouuyoscNrI)
 
 ### Retrieve and edit work items
 
@@ -138,4 +138,14 @@ Assign the work item to me and add a new comment.
 Assign this work item to myemail@outlook.com and add a comment "I will own this Bug and get it fixed"
 ```
 
-📽️ [MPC Server for Azure DevOps: Work with Work Items](https://youtu.be/tT7wqSIPKdA)
+📽️ [Azure DevOps MPC Server: Work with Work Items](https://youtu.be/tT7wqSIPKdA)
+
+### Create and Link Test Cases
+
+Open a user story and automatically generate test cases with detailed steps based on the story's description. Link the generated test cases back to the original user story.
+
+```plaintext
+Open work item 1234 in 'Contoso' project. Then look at the description and create 1-3 Test Cases with test steps. But show me a preview first before creating the Test Case in Azure DevOps. Be sure to link the new Test Case to the User Story 1234 when you do.
+```
+
+📽️ [Azure DevOps MPC Server: Creating Test Cases from Work Item](https://youtu.be/G7fnYjlSh_w)
