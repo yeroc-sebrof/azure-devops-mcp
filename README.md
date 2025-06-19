@@ -153,6 +153,8 @@ After installation, select GitHub Copilot Agent Mode and refresh the tools list.
 
 This installation method is the easiest for all users using Visual Studio Code.
 
+🎥 [Watch this quick start video to get up and running in under two minutes!](https://youtu.be/EUmFM6qXoYk)
+
 ##### Steps
 
 1. In your project, add a `.vscode\mcp.json` file and add the following:
