@@ -2,8 +2,8 @@
 
 ## Supporting material
 
- - [How to guide](./docs/how-to.md)
- - [Troubleshooting](./docs/Troubleshooting.md)
+ - [How to guide](./docs/HOWTO.md)
+ - [Troubleshooting](./docs/TROUBLESHOOTING.md)
 
 ## Security Related
 For any Security concerns or Issues, please refer to [SECURITY.md](./SECURITY.md) on properly raising them.

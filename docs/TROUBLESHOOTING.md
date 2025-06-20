@@ -1,10 +1,22 @@
 # Troubleshooting
 
 ## Common MCP Issues
+
 1. **Clearing VS Code Cache**
    If you encounter issues with stale configurations, reload the VS Code window:
    - Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS).
    - Select `Developer: Reload Window`.
+
+   You can also be more aggresive by clearing out the following folders:
+
+   - `%APPDATA%\Code\Cache`
+   - `%APPDATA%\Code\CachedData`
+   - `%APPDATA%\Code\User\workspaceStorage`
+   - `%APPDATA%\Code\logs`
+
+   Clear Node Modules Cache
+
+   - `npm cache clean --force`
 
 2. **Server Not Showing Up in Agent Mode**
    Ensure that the `mcp.json` file is correctly configured and includes the appropriate server definitions. Restart your MCP server and reload the VS Code window.
