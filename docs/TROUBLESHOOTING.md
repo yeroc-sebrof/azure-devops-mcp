@@ -24,6 +24,9 @@
 3. **Tools Not Loading in Agent Mode**
    If tools are not appearing, click "Add Context" in Agent Mode and ensure all tools starting with `ado_` are selected.
 
+4. **Too Many Tools Selected (Over 128 Limit)**
+   VS Code supports a maximum of 128 tools. If you exceed this limit, ensure you do not have multiple MCP Servers running. Check both your project's `mcp.json` and your VS Code `settings.json` to confirm that the MCP Server is configured in only one location—not both.
+
 ## Project-Specific Issues
 1. **npm Authentication Issues for Remote Access**
    If you encounter authentication errors while accessing the internal Codex-Deps feed (if using remote package):
