@@ -107,6 +107,57 @@ describe("configureWorkTools", () => {
         )
       );
     });
+
+    it("should handle API errors correctly", async () => {
+      configureWorkTools(server, tokenProvider, connectionProvider);
+
+      const call = (server.tool as jest.Mock).mock.calls.find(
+        ([toolName]) => toolName === "work_list_team_iterations"
+      );
+      if (!call)
+        throw new Error("work_list_team_iterations tool not registered");
+      const [, , , handler] = call;
+
+      const testError = new Error("Failed to retrieve iterations");
+      (mockWorkApi.getTeamIterations as jest.Mock).mockRejectedValue(testError);
+
+      const params = {
+        project: "fabrikam",
+        team: "Fabrikam Team",
+        timeframe: undefined,
+      };
+
+      const result = await handler(params);
+
+      expect(mockWorkApi.getTeamIterations).toHaveBeenCalled();
+      expect(result.isError).toBe(true);
+      expect(result.content[0].text).toContain("Error fetching team iterations: Failed to retrieve iterations");
+    });
+
+    it("should handle null API results correctly", async () => {
+      configureWorkTools(server, tokenProvider, connectionProvider);
+
+      const call = (server.tool as jest.Mock).mock.calls.find(
+        ([toolName]) => toolName === "work_list_team_iterations"
+      );
+      if (!call)
+        throw new Error("work_list_team_iterations tool not registered");
+      const [, , , handler] = call;
+
+      (mockWorkApi.getTeamIterations as jest.Mock).mockResolvedValue(null);
+
+      const params = {
+        project: "fabrikam",
+        team: "Fabrikam Team",
+        timeframe: undefined,
+      };
+
+      const result = await handler(params);
+
+      expect(mockWorkApi.getTeamIterations).toHaveBeenCalled();
+      expect(result.isError).toBe(true);
+      expect(result.content[0].text).toBe("No iterations found");
+    });
   });
 
   describe("assign_iterations", () => {
@@ -172,6 +223,65 @@ describe("configureWorkTools", () => {
           2
         )
       );
+    });
+
+    it("should handle API errors correctly", async () => {
+      configureWorkTools(server, tokenProvider, connectionProvider);
+
+      const call = (server.tool as jest.Mock).mock.calls.find(
+        ([toolName]) => toolName === "work_assign_iterations"
+      );
+      if (!call) throw new Error("work_assign_iterations tool not registered");
+      const [, , , handler] = call;
+
+      const testError = new Error("Failed to assign iteration");
+      (mockWorkApi.postTeamIteration as jest.Mock).mockRejectedValue(testError);
+
+      const params = {
+        project: "Fabrikam",
+        team: "Fabrikam Team",
+        iterations: [
+          {
+            identifier: "a589a806-bf11-4d4f-a031-c19813331553",
+            path: "Fabrikam-Fiber\\Release 1\\Sprint 2",
+          },
+        ],
+      };
+
+      const result = await handler(params);
+
+      expect(mockWorkApi.postTeamIteration).toHaveBeenCalled();
+      expect(result.isError).toBe(true);
+      expect(result.content[0].text).toContain("Error assigning iterations: Failed to assign iteration");
+    });
+
+    it("should handle null API results correctly", async () => {
+      configureWorkTools(server, tokenProvider, connectionProvider);
+
+      const call = (server.tool as jest.Mock).mock.calls.find(
+        ([toolName]) => toolName === "work_assign_iterations"
+      );
+      if (!call) throw new Error("work_assign_iterations tool not registered");
+      const [, , , handler] = call;
+
+      (mockWorkApi.postTeamIteration as jest.Mock).mockResolvedValue(null);
+
+      const params = {
+        project: "Fabrikam",
+        team: "Fabrikam Team",
+        iterations: [
+          {
+            identifier: "a589a806-bf11-4d4f-a031-c19813331553",
+            path: "Fabrikam-Fiber\\Release 1\\Sprint 2",
+          },
+        ],
+      };
+
+      const result = await handler(params);
+
+      expect(mockWorkApi.postTeamIteration).toHaveBeenCalled();
+      expect(result.isError).toBe(true);
+      expect(result.content[0].text).toBe("No iterations were assigned to the team");
     });
   });
 
@@ -257,6 +367,65 @@ describe("configureWorkTools", () => {
          2
        )
      );
+   });
+
+   it("should handle API errors correctly", async () => {
+     configureWorkTools(server, tokenProvider, connectionProvider);
+
+     const call = (server.tool as jest.Mock).mock.calls.find(
+       ([toolName]) => toolName === "work_create_iterations"
+     );
+     if (!call) throw new Error("work_create_iterations tool not registered");
+     const [, , , handler] = call;
+
+     const testError = new Error("Failed to create iteration");
+     (mockWorkItemTrackingApi.createOrUpdateClassificationNode as jest.Mock).mockRejectedValue(testError);
+
+     const params = {
+       project: "Fabrikam",
+       iterations: [
+         {
+           iterationName: "Sprint 2",
+           startDate: "2025-06-02T00:00:00Z",
+           finishDate: "2025-06-13T00:00:00Z",
+         },
+       ],
+     };
+
+     const result = await handler(params);
+
+     expect(mockWorkItemTrackingApi.createOrUpdateClassificationNode).toHaveBeenCalled();
+     expect(result.isError).toBe(true);
+     expect(result.content[0].text).toContain("Error creating iterations: Failed to create iteration");
+   });
+
+   it("should handle null API results correctly", async () => {
+     configureWorkTools(server, tokenProvider, connectionProvider);
+
+     const call = (server.tool as jest.Mock).mock.calls.find(
+       ([toolName]) => toolName === "work_create_iterations"
+     );
+     if (!call) throw new Error("work_create_iterations tool not registered");
+     const [, , , handler] = call;
+
+     (mockWorkItemTrackingApi.createOrUpdateClassificationNode as jest.Mock).mockResolvedValue(null);
+
+     const params = {
+       project: "Fabrikam",
+       iterations: [
+         {
+           iterationName: "Sprint 2",
+           startDate: "2025-06-02T00:00:00Z",
+           finishDate: "2025-06-13T00:00:00Z",
+         },
+       ],
+     };
+
+     const result = await handler(params);
+
+     expect(mockWorkItemTrackingApi.createOrUpdateClassificationNode).toHaveBeenCalled();
+     expect(result.isError).toBe(true);
+     expect(result.content[0].text).toBe("No iterations were created");
    });
  });
 
