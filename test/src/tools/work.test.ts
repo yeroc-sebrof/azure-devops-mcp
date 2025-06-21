@@ -167,6 +167,7 @@ describe("configureWorkTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "work_assign_iterations"
       );
+
       if (!call) throw new Error("work_assign_iterations tool not registered");
       const [, , , handler] = call;
 
@@ -231,6 +232,7 @@ describe("configureWorkTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "work_assign_iterations"
       );
+
       if (!call) throw new Error("work_assign_iterations tool not registered");
       const [, , , handler] = call;
 
@@ -261,6 +263,7 @@ describe("configureWorkTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "work_assign_iterations"
       );
+
       if (!call) throw new Error("work_assign_iterations tool not registered");
       const [, , , handler] = call;
 
@@ -292,12 +295,11 @@ describe("configureWorkTools", () => {
      const call = (server.tool as jest.Mock).mock.calls.find(
        ([toolName]) => toolName === "work_create_iterations"
      );
+
      if (!call) throw new Error("work_create_iterations tool not registered");
      const [, , , handler] = call;
 
-     (
-       mockWorkItemTrackingApi.createOrUpdateClassificationNode as jest.Mock
-     ).mockResolvedValue({
+     (mockWorkItemTrackingApi.createOrUpdateClassificationNode as jest.Mock).mockResolvedValue({
        id: 126391,
        identifier: "a5c68379-3258-4d62-971c-71c1c459336e",
        name: "Web",
@@ -375,6 +377,7 @@ describe("configureWorkTools", () => {
      const call = (server.tool as jest.Mock).mock.calls.find(
        ([toolName]) => toolName === "work_create_iterations"
      );
+     
      if (!call) throw new Error("work_create_iterations tool not registered");
      const [, , , handler] = call;
 
@@ -405,6 +408,7 @@ describe("configureWorkTools", () => {
      const call = (server.tool as jest.Mock).mock.calls.find(
        ([toolName]) => toolName === "work_create_iterations"
      );
+
      if (!call) throw new Error("work_create_iterations tool not registered");
      const [, , , handler] = call;
 

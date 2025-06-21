@@ -49,6 +49,7 @@ describe("configureCoreTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "core_list_projects"
       );
+
       if (!call) throw new Error("core_list_projects tool not registered");
       const [, , , handler] = call;
 
@@ -129,6 +130,7 @@ describe("configureCoreTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "core_list_projects"
       );
+
       if (!call) throw new Error("core_list_projects tool not registered");
       const [, , , handler] = call;
 
@@ -155,6 +157,7 @@ describe("configureCoreTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "core_list_projects"
       );
+
       if (!call) throw new Error("core_list_projects tool not registered");
       const [, , , handler] = call;
 
@@ -182,6 +185,7 @@ describe("configureCoreTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "core_list_project_teams"
       );
+
       if (!call) throw new Error("core_list_project_teams tool not registered");
       const [, , , handler] = call;
 
@@ -254,6 +258,7 @@ describe("configureCoreTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "core_list_project_teams"
       );
+
       if (!call) throw new Error("core_list_project_teams tool not registered");
       const [, , , handler] = call;
 
@@ -280,6 +285,7 @@ describe("configureCoreTools", () => {
       const call = (server.tool as jest.Mock).mock.calls.find(
         ([toolName]) => toolName === "core_list_project_teams"
       );
+      
       if (!call) throw new Error("core_list_project_teams tool not registered");
       const [, , , handler] = call;
 
