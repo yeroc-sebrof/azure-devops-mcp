@@ -15,20 +15,58 @@ import { configureWikiTools } from "./tools/wiki.js";
 import { configureTestPlanTools } from "./tools/testplans.js";
 import { configureSearchTools } from "./tools/search.js";
 
+export interface ToolConfigOptions {
+  disableWorkTools?: boolean;
+  disableBuildTools?: boolean;
+  disableRepoTools?: boolean;
+  disableWorkItemTools?: boolean;
+  disableReleaseTools?: boolean;
+  disableWikiTools?: boolean;
+  disableTestPlanTools?: boolean;
+  disableSearchTools?: boolean;
+}
+
 function configureAllTools(
   server: McpServer,
   tokenProvider: () => Promise<AccessToken>,
-  connectionProvider: () => Promise<WebApi>
+  connectionProvider: () => Promise<WebApi>,
+  options: ToolConfigOptions = {}
 ) {
+    // Always configure core tools
     configureCoreTools(server, tokenProvider, connectionProvider);
-    configureWorkTools(server, tokenProvider, connectionProvider);
-    configureBuildTools(server, tokenProvider, connectionProvider);
-    configureRepoTools(server, tokenProvider, connectionProvider);
-    configureWorkItemTools(server, tokenProvider, connectionProvider);
-    configureReleaseTools(server, tokenProvider, connectionProvider);
-    configureWikiTools(server, tokenProvider, connectionProvider);
-    configureTestPlanTools(server, tokenProvider, connectionProvider);
-    configureSearchTools(server, tokenProvider, connectionProvider);
+
+    // Conditionally configure other tool sets based on options
+    if (!options.disableWorkTools) {
+      configureWorkTools(server, tokenProvider, connectionProvider);
+    }
+
+    if (!options.disableBuildTools) {
+      configureBuildTools(server, tokenProvider, connectionProvider);
+    }
+
+    if (!options.disableRepoTools) {
+      configureRepoTools(server, tokenProvider, connectionProvider);
+    }
+
+    if (!options.disableWorkItemTools) {
+      configureWorkItemTools(server, tokenProvider, connectionProvider);
+    }
+
+    if (!options.disableReleaseTools) {
+      configureReleaseTools(server, tokenProvider, connectionProvider);
+    }
+
+    if (!options.disableWikiTools) {
+      configureWikiTools(server, tokenProvider, connectionProvider);
+    }
+
+    if (!options.disableTestPlanTools) {
+      configureTestPlanTools(server, tokenProvider, connectionProvider);
+    }
+
+    if (!options.disableSearchTools) {
+      configureSearchTools(server, tokenProvider, connectionProvider);
+    }
 }
 
 export { configureAllTools };

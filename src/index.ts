@@ -8,17 +8,41 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import * as azdev from "azure-devops-node-api";
 import { AccessToken, DefaultAzureCredential } from "@azure/identity";
 import { configurePrompts } from "./prompts.js";
-import { configureAllTools } from "./tools.js";
+import { configureAllTools, ToolConfigOptions } from "./tools.js";
 import { userAgent } from "./utils.js";
 import { packageVersion } from "./version.js";
-const args = process.argv.slice(2);
-if (args.length === 0) {  console.error(
-    "Usage: mcp-server-azuredevops <organization_name>"
+import { minimist } from "minimist";
+
+const argv = minimist(process.argv.slice(2), {
+  boolean: [
+    'disable-work-tools',
+    'disable-build-tools',
+    'disable-repo-tools',
+    'disable-workitem-tools',
+    'disable-release-tools',
+    'disable-wiki-tools',
+    'disable-testplan-tools',
+    'disable-search-tools'
+  ]
+});
+
+if (argv._.length === 0) {
+  console.error(
+    "Usage: mcp-server-azuredevops <organization_name> [options]\n" +
+    "Options:\n" +
+    "  --disable-work-tools\n" +
+    "  --disable-build-tools\n" +
+    "  --disable-repo-tools\n" +
+    "  --disable-workitem-tools\n" +
+    "  --disable-release-tools\n" +
+    "  --disable-wiki-tools\n" +
+    "  --disable-testplan-tools\n" +
+    "  --disable-search-tools"
   );
   process.exit(1);
 }
 
-export const orgName = args[0];
+export const orgName = argv._[0];
 const orgUrl = "https://dev.azure.com/" + orgName;
 
 async function getAzureDevOpsToken(): Promise<AccessToken> {
@@ -47,10 +71,22 @@ async function main() {
 
   configurePrompts(server);
   
+  const toolConfig: ToolConfigOptions = {
+    disableWorkTools: argv['disable-work-tools'],
+    disableBuildTools: argv['disable-build-tools'],
+    disableRepoTools: argv['disable-repo-tools'],
+    disableWorkItemTools: argv['disable-workitem-tools'],
+    disableReleaseTools: argv['disable-release-tools'],
+    disableWikiTools: argv['disable-wiki-tools'],
+    disableTestPlanTools: argv['disable-testplan-tools'],
+    disableSearchTools: argv['disable-search-tools']
+  };
+  
   configureAllTools(
     server,
     getAzureDevOpsToken,
-    getAzureDevOpsClient
+    getAzureDevOpsClient,
+    toolConfig
   );
 
   const transport = new StdioServerTransport();
