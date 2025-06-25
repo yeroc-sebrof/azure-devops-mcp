@@ -472,25 +472,38 @@ function configureWorkItemTools(
       fields: z.record(z.string(), z.string()).describe("A record of field names and values to set on the new work item. Each key is a field name, and each value is the corresponding value to set for that field."),
     },
     async ({ project, workItemType, fields }) => {
-      const connection = await connectionProvider();
-      const workItemApi = await connection.getWorkItemTrackingApi();
+      try {
+        const connection = await connectionProvider();
+        const workItemApi = await connection.getWorkItemTrackingApi();
 
-      const document = Object.entries(fields).map(([key, value]) => ({
-        op: "add",
-        path: `/fields/${key}`,
-        value,
-      }));
+        const document = Object.entries(fields).map(([key, value]) => ({
+          op: "add",
+          path: `/fields/${key}`,
+          value,
+        }));
 
-      const newWorkItem = await workItemApi.createWorkItem(
-        null,
-        document,
-        project,
-        workItemType
-      );
+        const newWorkItem = await workItemApi.createWorkItem(
+          null,
+          document,
+          project,
+          workItemType
+        );
 
-      return {
-        content: [{ type: "text", text: JSON.stringify(newWorkItem, null, 2) }],
-      };
+        if (! newWorkItem) {
+          return { content: [{ type: "text", text: "Work item was not created" }], isError: true };
+        }
+
+        return {
+          content: [{ type: "text", text: JSON.stringify(newWorkItem, null, 2) }],
+        };
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+        
+        return { 
+          content: [{ type: "text", text: `Error creating work item: ${errorMessage}` }], 
+          isError: true
+        };
+      }
     }
   );
   
