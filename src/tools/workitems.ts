@@ -304,21 +304,20 @@ function configureWorkItemTools(
     WORKITEM_TOOLS.link_work_item_to_pull_request,
     "Link a single work item to an existing pull request.",
     {
-      project: z.string().describe,
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
       repositoryId: z.string().describe("The ID of the repository containing the pull request. Do not use the repository name here, use the ID instead."),
       pullRequestId: z.number().describe("The ID of the pull request to link to."),
       workItemId: z.number().describe("The ID of the work item to link to the pull request."),
     },
     async ({ project, repositoryId, pullRequestId, workItemId }) => {
-      const connection = await connectionProvider();
-      const workItemTrackingApi = await connection.getWorkItemTrackingApi();
       try {
+        const connection = await connectionProvider();
+        const workItemTrackingApi = await connection.getWorkItemTrackingApi();
+            
         // Create artifact link relation using vstfs format
         // Format: vstfs:///Git/PullRequestId/{project}/{repositoryId}/{pullRequestId}
         const artifactPathValue = `${project}/${repositoryId}/${pullRequestId}`;
-        const vstfsUrl = `vstfs:///Git/PullRequestId/${encodeURIComponent(
-          artifactPathValue
-        )}`;
+        const vstfsUrl = `vstfs:///Git/PullRequestId/${encodeURIComponent(artifactPathValue)}`;
 
         // Use the PATCH document format for adding a relation
         const patchDocument = [
@@ -336,12 +335,16 @@ function configureWorkItemTools(
         ];
 
         // Use the WorkItem API to update the work item with the new relation
-        await workItemTrackingApi.updateWorkItem(
+        const workItem = await workItemTrackingApi.updateWorkItem(
           {},
           patchDocument,
           workItemId,
           project
         );
+
+        if (!workItem) {
+          return { content: [{ type: "text", text: "Work item update failed" }], isError: true };
+        }
 
         return {
           content: [
@@ -359,27 +362,12 @@ function configureWorkItemTools(
             },
           ],
         };
-      } catch (error) {
-        console.error(
-          `Error linking work item ${workItemId} to PR ${pullRequestId}:`,
-          error
-        );
-
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify(
-                {
-                  workItemId,
-                  pullRequestId,
-                  success: false,
-                },
-                null,
-                2
-              ),
-            },
-          ],
+       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+        
+        return { 
+          content: [{ type: "text", text: `Error linking work item to pull request: ${errorMessage}` }], 
+          isError: true
         };
       }
     }
