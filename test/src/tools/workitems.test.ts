@@ -526,7 +526,7 @@ describe("configureWorkItemTools", () => {
       if (!call)throw new Error("wit_link_work_item_to_pull_request tool not registered");
       const [, , , handler] = call;
 
-      (mockWorkItemTrackingApi.updateWorkItem as jest.Mock).mockResolvedValue([        
+      (mockWorkItemTrackingApi.updateWorkItem as jest.Mock).mockResolvedValue([
           _mockWorkItem,
       ]);
 
@@ -573,6 +573,71 @@ describe("configureWorkItemTools", () => {
           null,
           2
         )
+      );
+    });
+
+    it("should handle errors from updateWorkItem and return a descriptive error", async () => {
+      configureWorkItemTools(server, tokenProvider, connectionProvider);
+      const call = (server.tool as jest.Mock).mock.calls.find(
+        ([toolName]) => toolName === "wit_link_work_item_to_pull_request"
+      );
+      
+      if (!call) throw new Error("wit_link_work_item_to_pull_request tool not registered");
+      
+      const [, , , handler] = call;
+      (mockWorkItemTrackingApi.updateWorkItem as jest.Mock).mockRejectedValue(new Error("API failure"));
+      
+      const params = {
+        project: "Contoso",
+        repositoryId: 12345,
+        pullRequestId: 67890,
+        workItemId: 131489,
+      };
+      const result = await handler(params);
+
+      expect(result.isError).toBe(true);
+      expect(result.content[0].text).toContain("API failure");
+    });
+
+    it("should encode special characters in project and repositoryId for vstfsUrl", async () => {
+      configureWorkItemTools(server, tokenProvider, connectionProvider);
+      const call = (server.tool as jest.Mock).mock.calls.find(
+        ([toolName]) => toolName === "wit_link_work_item_to_pull_request"
+      );
+      if (!call) throw new Error("wit_link_work_item_to_pull_request tool not registered");
+      
+      const [, , , handler] = call;
+      (mockWorkItemTrackingApi.updateWorkItem as jest.Mock).mockResolvedValue([
+        _mockWorkItem,
+      ]);
+      
+      const params = {
+        project: "Contoso Project",
+        repositoryId: "repo/with/slash",
+        pullRequestId: 67890,
+        workItemId: 131489,
+      };
+      const artifactPathValue = `${params.project}/${params.repositoryId}/${params.pullRequestId}`;
+      const vstfsUrl = `vstfs:///Git/PullRequestId/${encodeURIComponent(artifactPathValue)}`;
+      const document = [
+        {
+          op: "add",
+          path: "/relations/-",
+          value: {
+            rel: "ArtifactLink",
+            url: vstfsUrl,
+            attributes: {
+              name: "Pull Request",
+            },
+          },
+        },
+      ];
+      await handler(params);
+      expect(mockWorkItemTrackingApi.updateWorkItem).toHaveBeenCalledWith(
+        {},
+        document,
+        params.workItemId,
+        params.project,
       );
     });
   });
