@@ -3,6 +3,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import minimist from "minimist";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import * as azdev from "azure-devops-node-api";
@@ -11,7 +12,6 @@ import { configurePrompts } from "./prompts.js";
 import { configureAllTools, ToolConfigOptions } from "./tools.js";
 import { userAgent } from "./utils.js";
 import { packageVersion } from "./version.js";
-import { minimist } from "minimist";
 
 const argv = minimist(process.argv.slice(2), {
   boolean: [
