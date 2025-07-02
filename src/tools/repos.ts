@@ -4,7 +4,7 @@
 import { AccessToken } from "@azure/identity";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebApi } from "azure-devops-node-api";
-import { GitRef } from "azure-devops-node-api/interfaces/GitInterfaces.js";
+import { GitRef, PullRequestStatus } from "azure-devops-node-api/interfaces/GitInterfaces.js";
 import { z } from "zod";
 import { getCurrentUserDetails } from "./auth.js";
 
@@ -34,6 +34,23 @@ function branchesFilterOutIrrelevantProperties(
     ?.filter((branch) => branch.startsWith("refs/heads/"))
     .map((branch) => branch.replace("refs/heads/", ""))
     .slice(0, top);
+}
+
+function pullRequestStatusStringToInt(
+  status: string)
+: number {
+  switch (status) {
+    case "abandoned":
+      return PullRequestStatus.Abandoned.valueOf();
+    case "active":
+      return PullRequestStatus.Active.valueOf();
+    case "completed":
+      return PullRequestStatus.Completed.valueOf();
+    case "notSet":
+      return PullRequestStatus.NotSet.valueOf();
+    default:
+      throw new Error(`Unknown pull request status: ${status}`);
+  }
 }
 
 function configureRepoTools(
@@ -149,8 +166,9 @@ function configureRepoTools(
       repositoryId: z.string().describe("The ID of the repository where the pull requests are located."),
       created_by_me: z.boolean().default(false).describe("Filter pull requests created by the current user."),
       i_am_reviewer: z.boolean().default(false).describe("Filter pull requests where the current user is a reviewer."),
+      status: z.enum(["abandoned", "active", "all", "completed", "notSet"]).default("notSet").describe("Filter pull requests by status. Defaults to 'notSet'."),
     },
-    async ({ repositoryId, created_by_me, i_am_reviewer }) => {
+    async ({ repositoryId, created_by_me, i_am_reviewer, status }) => {
       const connection = await connectionProvider();
       const gitApi = await connection.getGitApi();
 
@@ -161,7 +179,7 @@ function configureRepoTools(
         creatorId?: string;
         reviewerId?: string;
       } = {
-        status: 1,
+        status: pullRequestStatusStringToInt(status),
         repositoryId: repositoryId,
       };
 
@@ -213,8 +231,9 @@ function configureRepoTools(
       project: z.string().describe("The name or ID of the Azure DevOps project."),
       created_by_me: z.boolean().default(false).describe("Filter pull requests created by the current user."),
       i_am_reviewer: z.boolean().default(false).describe("Filter pull requests where the current user is a reviewer."),
+      status: z.enum(["abandoned", "active", "all", "completed", "notSet"]).default("notSet").describe("Filter pull requests by status. Defaults to 'notSet'."),
     },
-    async ({ project, created_by_me, i_am_reviewer }) => {
+    async ({ project, created_by_me, i_am_reviewer, status }) => {
       const connection = await connectionProvider();
       const gitApi = await connection.getGitApi();
 
@@ -224,7 +243,7 @@ function configureRepoTools(
         creatorId?: string;
         reviewerId?: string;
       } = {
-        status: 1,
+        status: pullRequestStatusStringToInt(status),
       };
 
       if (created_by_me || i_am_reviewer) {
