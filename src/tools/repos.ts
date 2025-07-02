@@ -52,6 +52,7 @@ function configureRepoTools(
       title: z.string().describe("The title of the pull request."),
       description: z.string().optional().describe("The description of the pull request. Optional."),
       isDraft: z.boolean().optional().default(false).describe("Indicates whether the pull request is a draft. Defaults to false."),
+      workItems: z.string().optional().describe("Work item IDs to associate with the pull request, space-separated."),
     },
     async ({
       repositoryId,
@@ -60,9 +61,18 @@ function configureRepoTools(
       title,
       description,
       isDraft,
+      workItems,
     }) => {
       const connection = await connectionProvider();
       const gitApi = await connection.getGitApi();
+      const workItemRefs = workItems
+        ? workItems.split(" ").map((id) => ({
+        id: id.trim(),
+        url: `https://dev.azure.com/your_organization/_apis/wit/workitems/${id.trim()}`,
+        rel: "WorkItem",
+          }))
+        : [];
+
       const pullRequest = await gitApi.createPullRequest(
         {
           sourceRefName,
@@ -70,6 +80,7 @@ function configureRepoTools(
           title,
           description,
           isDraft,
+          workItemRefs: workItemRefs,
         },
         repositoryId
       );
