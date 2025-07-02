@@ -44,6 +44,8 @@ function pullRequestStatusStringToInt(
       return PullRequestStatus.Abandoned.valueOf();
     case "active":
       return PullRequestStatus.Active.valueOf();
+    case "all":
+      return PullRequestStatus.All.valueOf();
     case "completed":
       return PullRequestStatus.Completed.valueOf();
     case "notSet":
