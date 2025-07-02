@@ -168,7 +168,7 @@ function configureRepoTools(
       repositoryId: z.string().describe("The ID of the repository where the pull requests are located."),
       created_by_me: z.boolean().default(false).describe("Filter pull requests created by the current user."),
       i_am_reviewer: z.boolean().default(false).describe("Filter pull requests where the current user is a reviewer."),
-      status: z.enum(["abandoned", "active", "all", "completed", "notSet"]).default("notSet").describe("Filter pull requests by status. Defaults to 'notSet'."),
+      status: z.enum(["abandoned", "active", "all", "completed", "notSet"]).default("active").describe("Filter pull requests by status. Defaults to 'active'."),
     },
     async ({ repositoryId, created_by_me, i_am_reviewer, status }) => {
       const connection = await connectionProvider();
@@ -233,7 +233,7 @@ function configureRepoTools(
       project: z.string().describe("The name or ID of the Azure DevOps project."),
       created_by_me: z.boolean().default(false).describe("Filter pull requests created by the current user."),
       i_am_reviewer: z.boolean().default(false).describe("Filter pull requests where the current user is a reviewer."),
-      status: z.enum(["abandoned", "active", "all", "completed", "notSet"]).default("notSet").describe("Filter pull requests by status. Defaults to 'notSet'."),
+      status: z.enum(["abandoned", "active", "all", "completed", "notSet"]).default("active").describe("Filter pull requests by status. Defaults to 'active'."),
     },
     async ({ project, created_by_me, i_am_reviewer, status }) => {
       const connection = await connectionProvider();
