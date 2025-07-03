@@ -66,11 +66,7 @@ function configureRepoTools(
       const connection = await connectionProvider();
       const gitApi = await connection.getGitApi();
       const workItemRefs = workItems
-        ? workItems.split(" ").map((id) => ({
-        id: id.trim(),
-        url: `https://dev.azure.com/your_organization/_apis/wit/workitems/${id.trim()}`,
-        rel: "WorkItem",
-          }))
+        ? workItems.split(" ").map((id) => ({ id: id.trim() }))
         : [];
 
       const pullRequest = await gitApi.createPullRequest(
