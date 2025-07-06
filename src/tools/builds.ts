@@ -271,15 +271,42 @@ function configureBuildTools(
       project: z.string().describe("Project ID or name to run the build in"),
       definitionId: z.number().describe("ID of the build definition to run"),
       sourceBranch: z.string().optional().describe("Source branch to run the build from. If not provided, the default branch will be used."),
+      parameters: z.record(z.string(), z.string()).optional().describe("Custom build parameters as key-value pairs"),
     },
-    async ({ project, definitionId, sourceBranch }) => {
+    async ({ project, definitionId, sourceBranch, parameters }) => {
       const connection = await connectionProvider();
       const buildApi = await connection.getBuildApi();
-      const build = await buildApi.queueBuild({ definition: { id: definitionId }, sourceBranch }, project);
-
-      return {
-        content: [{ type: "text", text: JSON.stringify(build, null, 2) }],
+      const pipelinesApi = await connection.getPipelinesApi();
+      const definition = await buildApi.getDefinition(project, definitionId);
+      const runRequest = {
+        resources: {
+          repositories: {
+            self: {
+              refName:
+                sourceBranch ||
+                definition.repository?.defaultBranch ||
+                "refs/heads/main",
+            },
+          },
+        },
+        templateParameters: parameters,
       };
+      
+      const pipelineRun = await pipelinesApi.runPipeline(
+        runRequest,
+        project,
+        definitionId
+      );
+      const queuedBuild = { id: pipelineRun.id };
+      const buildId = queuedBuild.id;
+      if (buildId === undefined) {
+        throw new Error("Failed to get build ID from pipeline run");
+      }
+
+      const buildReport = await buildApi.getBuildReport(project, buildId);
+      return {
+        content: [{ type: "text", text: JSON.stringify(buildReport, null, 2) }],
+      };      
     }
   );
 
