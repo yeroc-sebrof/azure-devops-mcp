@@ -63,9 +63,10 @@ function configureCoreTools(
       stateFilter: z.enum(["all", "wellFormed", "createPending", "deleted"]).default("wellFormed").describe("Filter projects by their state. Defaults to 'wellFormed'."),
       top: z.number().optional().describe("The maximum number of projects to return. Defaults to 100."),
       skip: z.number().optional().describe("The number of projects to skip for pagination. Defaults to 0."),
-      continuationToken: z.number().optional().describe("Continuation token for pagination. Used to fetch the next set of results if available."),      
+      continuationToken: z.number().optional().describe("Continuation token for pagination. Used to fetch the next set of results if available."),
+      projectNameFilter: z.string().optional().describe("Filter projects by name. Supports partial matches."),
     },
-    async ({ stateFilter, top, skip, continuationToken }) => {
+    async ({ stateFilter, top, skip, continuationToken, projectNameFilter }) => {
       try {
         const connection = await connectionProvider();
         const coreApi = await connection.getCoreApi();
@@ -79,6 +80,19 @@ function configureCoreTools(
 
         if (!projects) {
           return { content: [{ type: "text", text: "No projects found" }], isError: true };
+        }
+
+        // If projectNameFilter is provided, filter the projects
+        if (projectNameFilter) {
+          const filteredProjects = projects.filter(project =>
+            project.name?.toLowerCase().includes(projectNameFilter.toLowerCase())
+          );
+          if (filteredProjects.length === 0) {
+            return { content: [{ type: "text", text: "No projects found matching the filter" }], isError: true };
+          }
+          return {
+            content: [{ type: "text", text: JSON.stringify(filteredProjects, null, 2) }],
+          };
         }
 
         return {
