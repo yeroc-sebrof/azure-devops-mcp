@@ -6,10 +6,23 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebApi } from "azure-devops-node-api";
 import { z } from "zod";
 
+import type { ProjectInfo } from "azure-devops-node-api/interfaces/CoreInterfaces.js";
+
 const CORE_TOOLS = {
   list_project_teams: "core_list_project_teams",
   list_projects: "core_list_projects",  
 };
+
+function filterProjectsByName(
+  projects: ProjectInfo[],
+  projectNameFilter: string
+): ProjectInfo[]
+{
+  const lowerCaseFilter = projectNameFilter.toLowerCase();
+  return projects.filter((project) =>
+    project.name?.toLowerCase().includes(lowerCaseFilter)
+  );
+}
 
 function configureCoreTools(
   server: McpServer,
@@ -82,21 +95,12 @@ function configureCoreTools(
           return { content: [{ type: "text", text: "No projects found" }], isError: true };
         }
 
-        // If projectNameFilter is provided, filter the projects
-        if (projectNameFilter) {
-          const filteredProjects = projects.filter(project =>
-            project.name?.toLowerCase().includes(projectNameFilter.toLowerCase())
-          );
-          if (filteredProjects.length === 0) {
-            return { content: [{ type: "text", text: "No projects found matching the filter" }], isError: true };
-          }
-          return {
-            content: [{ type: "text", text: JSON.stringify(filteredProjects, null, 2) }],
-          };
-        }
+        const filteredProject = projectNameFilter
+          ? filterProjectsByName(projects, projectNameFilter)
+          : projects;
 
         return {
-          content: [{ type: "text", text: JSON.stringify(projects, null, 2) }],
+          content: [{ type: "text", text: JSON.stringify(filteredProject, null, 2) }],
         };
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
