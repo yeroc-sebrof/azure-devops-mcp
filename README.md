@@ -18,7 +18,7 @@ This TypeScript project defines the **local** MCP server for Azure DevOps, enabl
 5. [📝 Troubleshooting](#-troubleshooting)
 6. [🎩 Samples & best practices](#-samples--best-practices)
 7. [🙋‍♀️ Frequently asked questions](#️-frequently-asked-questions)
-8. [📌 Contributing](#️-contributing)
+8. [📌 Contributing](#-contributing)
 
 ## 📺 Overview
 
