@@ -20,3 +20,5 @@ configuration:
     role: Write
   - member: vinayakmsft
     role: Write
+  - member: nikolapeja6
+    role: Write
