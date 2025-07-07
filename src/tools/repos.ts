@@ -7,6 +7,7 @@ import { WebApi } from "azure-devops-node-api";
 import { GitRef, PullRequestStatus } from "azure-devops-node-api/interfaces/GitInterfaces.js";
 import { z } from "zod";
 import { getCurrentUserDetails } from "./auth.js";
+import { GitRepository } from "azure-devops-node-api/interfaces/TfvcInterfaces.js";
 
 const REPO_TOOLS = {
   list_repos_by_project: "repo_list_repos_by_project",
@@ -53,6 +54,18 @@ function pullRequestStatusStringToInt(
     default:
       throw new Error(`Unknown pull request status: ${status}`);
   }
+}
+
+function filterReposByName(
+  repositories: GitRepository[],
+  repoNameFilter: string
+): GitRepository[] {
+  const lowerCaseFilter = repoNameFilter.toLowerCase();
+  const filteredByName = repositories?.filter((repo) =>
+    repo.name?.toLowerCase().includes(lowerCaseFilter)
+  );
+
+  return filteredByName;
 }
 
 function configureRepoTools(
@@ -137,9 +150,10 @@ function configureRepoTools(
     REPO_TOOLS.list_repos_by_project,
     "Retrieve a list of repositories for a given project",
     { 
-      project: z.string().describe("The name or ID of the Azure DevOps project."), 
+      project: z.string().describe("The name or ID of the Azure DevOps project."),
+      repoNameFilter: z.string().optional().describe("Optional filter to search for repositories by name. If provided, only repositories with names containing this string will be returned."), 
     },
-    async ({ project }) => {
+    async ({ project, repoNameFilter }) => {
       const connection = await connectionProvider();
       const gitApi = await connection.getGitApi();
       const repositories = await gitApi.getRepositories(
@@ -149,8 +163,12 @@ function configureRepoTools(
         false
       );
 
+      const filteredRepositories = repoNameFilter
+        ? filterReposByName(repositories, repoNameFilter)
+        : repositories;
+
       // Filter out the irrelevant properties
-      const filteredRepositories = repositories?.map((repo) => ({
+      const trimmedRepositories = filteredRepositories?.map((repo) => ({
         id: repo.id,
         name: repo.name,
         isDisabled: repo.isDisabled,
@@ -162,7 +180,7 @@ function configureRepoTools(
 
       return {
         content: [
-          { type: "text", text: JSON.stringify(filteredRepositories, null, 2) },
+          { type: "text", text: JSON.stringify(trimmedRepositories, null, 2) },
         ],
       };
     }
