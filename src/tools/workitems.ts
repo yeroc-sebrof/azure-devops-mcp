@@ -6,18 +6,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebApi } from "azure-devops-node-api";
 import { WorkItemExpand } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces.js";
 import { QueryExpand } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces.js";
-import { Operation } from "azure-devops-node-api/interfaces/common/VSSInterfaces.js";
 import { z } from "zod";
 import { batchApiVersion, markdownCommentsApiVersion, getEnumKeys, safeEnumConvert } from "../utils.js";
-
-/**
- * Converts Operation enum key to lowercase string for API usage
- * @param operation The Operation enum key (e.g., "Add", "Replace", "Remove")
- * @returns Lowercase string for API usage (e.g., "add", "replace", "remove")
- */
-function operationToApiString(operation: string): string {
-  return operation.toLowerCase();
-}
 
 const WORKITEM_TOOLS = {
   my_work_items: "wit_my_work_items",
@@ -463,7 +453,12 @@ function configureWorkItemTools(server: McpServer, tokenProvider: () => Promise<
       updates: z
         .array(
           z.object({
-            op: z.enum(["Add", "Replace", "Remove"]).default("Add").describe("The operation to perform on the field."),
+            op: z
+              .string()
+              .transform((val) => val.toLowerCase())
+              .pipe(z.enum(["add", "replace", "remove"]))
+              .default("add")
+              .describe("The operation to perform on the field."),
             path: z.string().describe("The path of the field to update, e.g., '/fields/System.Title'."),
             value: z.string().describe("The new value for the field. This is required for 'Add' and 'Replace' operations, and should be omitted for 'Remove' operations."),
           })
@@ -477,7 +472,7 @@ function configureWorkItemTools(server: McpServer, tokenProvider: () => Promise<
       // Convert operation names to lowercase for API
       const apiUpdates = updates.map((update) => ({
         ...update,
-        op: operationToApiString(update.op),
+        op: update.op,
       }));
 
       const updatedWorkItem = await workItemApi.updateWorkItem(null, apiUpdates, id);
